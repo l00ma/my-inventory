@@ -1,0 +1,42 @@
+{% if is_granted('ROLE_USER') %}
+
+	<style>
+		.svg_gris {
+			filter: invert(50%) sepia(6%) saturate(630%) hue-rotate(167deg) brightness(87%) contrast(86%);
+		}
+	</style>
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f7f7f7">
+		<div class="container-fluid">
+
+			<a class="navbar-brand" href="{{ path ('app_main') }}"><img src="{{ asset('css/images/raspberry_petit.png') }}" alt="Logo" width="29" class="d-inline-block align-text-bottom"><span class="fs-4 fw-bolder ms-1 text-secondary">
+					My Stock</span>
+				<span class="ps-3 d-inline-block align-middle" id="bar"></span>
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#my_navbar" aria-controls="my_navbar" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="my_navbar">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-row">
+					<li class="nav-item me-3 me-lg-0">
+						<a class="nav-link active" title="Home page" href="{{ path ('app_main') }}"><img src="{{ asset('css/icons/home.svg') }}" class="svg_gris" alt="Home"/></a>
+					</li>
+					<li class="nav-item me-3 me-lg-0">
+						<a class="nav-link" title="Motion sensor" href="#"><img src="{{ asset('css/icons/detection.svg') }}" class="svg_gris" alt="Motion sensor"/></a>
+					</li>
+					<li class="nav-item me-3 me-lg-0">
+						<a class="nav-link" title="Recorded videos" href="#"><img src="{{ asset('css/icons/film.svg') }}" class="svg_gris" alt="Recorded videos"/></a>
+					</li>
+					<li class="nav-item me-3 me-lg-0">
+						<a class="nav-link" title="Live camera" href='#'><img src="{{ asset('css/icons/live.svg') }}" class="svg_gris" alt="Live cam"/></a>
+					</li>
+					<li class="nav-item me-3 me-lg-0">
+						<a class="nav-link" title="Edit user" href="#"><img src="{{ asset('css/icons/user.svg') }}" class="svg_gris" alt="Edit user"/></a>
+					</li>
+					<li class="nav-item me-3 me-lg-0">
+						<a class="nav-link" title="Sign out" href="{{ path ('app_logout') }}"><img src="{{ asset('css/icons/exit.svg') }}" class="svg_gris" alt="Sign out"/></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+{% endif %}

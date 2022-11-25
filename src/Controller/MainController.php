@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,9 +23,8 @@ class MainController extends AbstractController
     }
 
     #[Route('/main', name: 'app_main')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(): Response
     {
-        $name = $this->getUser()->getName();
         $role = $this->getUser()->getRoles();
 
         foreach ($role as $admin) {
@@ -35,8 +33,6 @@ class MainController extends AbstractController
             } else {
                 return $this->render('main/index.html.twig', [
                     'controller_name' => 'MainController',
-                    'name' => $name,
-                    'role' => $role
                 ]);
             }
         }
