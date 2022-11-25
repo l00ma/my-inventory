@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MyStock
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Hello</h1>
+		<ul>
+			<li>option 1
+				<a href="{{ path ('app_register') }}">Register</a>
+			</li>
+			<li>option 2
+				<a href="{{ path ('app_login') }}">Login</a>
+			</li>
+		</ul>
+	</div>
+{% endblock %}
