@@ -40,7 +40,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $ip = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\Column]
+    private ?int $currency_id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'user')]
     private ?Currency $currency = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Product::class, orphanRemoval: true)]
@@ -166,6 +169,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCurrency(?Currency $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getCurrencyId(): ?int
+    {
+        return $this->currency_id;
+    }
+
+    public function setCurrencyId(?int $currency_id): self
+    {
+        $this->currency_id = $currency_id;
 
         return $this;
     }

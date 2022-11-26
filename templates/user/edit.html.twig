@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit your credentials
+{% endblock %}
+
+{% block body%}
+	{% include 'main/_bar.html.twig' %}
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+	<div class="ms-2 text-secondary">
+		<h3>Change credentials</h2>
+	</div>
+	<div class="container mt-4 text-secondary">
+		<form method="post">
+			<div class="column">
+				<div class="col-md-4">
+					<label for="user">User name</label>
+					<input type="text" id="user" name="user" value="{{ app.user.name }}" class="form-control">
+				</div>
+				<div class="col-md-4">
+					<label for="email">Email</label>
+					<input type="text" id="email" name="email" value="{{ app.user.email }}" class="form-control">
+				</div>
+				<div class="col-md-4">
+					<label for="currency">Currency</label>
+					<select name="currency" id="currency" class="form-control">
+						{% for value in currency %}
+							<option value="{{value.id}}" {% if app.user.currency.id is defined and value.id == app.user.currency.id%} selected {% endif %}>{{value.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label for="pass1">Password</label>
+					<input type="password" id="pass1" name="pass1" class="form-control">
+				</div>
+				<div class="col-md-4">
+					<label for="pass2">Confirm password</label>
+					<input type="password" id="pass2" name="pass2" class="form-control">
+				</div>
+				<div class="mt-2">
+					<button class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</form>
+	</div>
+{% endblock %}

@@ -8,17 +8,33 @@
 	<div class="container">
 		<h1>Hello
 			{{ app.user.name }}</h1>
-		<ul>
-			<li>Your controller at
-				<code>
-					<a href="{{ '/home/account/symfony_projects/mystock/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a>
-				</code>
-			</li>
-			<li>Your template at
-				<code>
-					<a href="{{ '/home/account/symfony_projects/mystock/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a>
-				</code>
-			</li>
-		</ul>
+		<div class="row">
+			<div class="col">
+				<table>
+					<tr>
+						<th>Name</th>
+						<th>Brand</th>
+						<th>Quty</th>
+						<th>U Price</th>
+						<th>U Weight</th>
+						<th>DLC</th>
+						<th>Location</th>
+						<th>Remark</th>
+					</tr>
+					{% for product in products %}
+						<tr>
+							<td>{{product.name}}</td>
+							<td>{{product.brand}}</td>
+							<td>{{product.quantity}}</td>
+							<td>{{product.price}}</td>
+							<td>{{product.uweight}}</td>
+							<td>{{product.limitdate|date('d-m-Y')}}</td>
+							<td>{{product.location}}</td>
+							<td>{{product.remark}}</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
 	</div>
 {% endblock %}
