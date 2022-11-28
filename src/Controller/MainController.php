@@ -31,11 +31,7 @@ class MainController extends AbstractController
             if ($admin == "ROLE_ADMIN") {
                 return $this->redirectToRoute('app_admin');
             } else {
-
-                $products = $this->getUser()->getProducts();
-                return $this->render('main/index.html.twig', [
-                    'products' => $products
-                ]);
+                return $this->render('main/index.html.twig');
             }
         }
     }

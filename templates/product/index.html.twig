@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My stuff
+{% endblock %}
+
+{% block body %}
+	{% include 'main/_bar.html.twig' %}
+	<h3>My products</h3>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Brand</th>
+				<th>U_weight</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Limit_date</th>
+				<th>Location</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for product in app.user.products %}
+				<tr>
+					<td>{{ product.name }}</td>
+					<td>{{ product.brand }}</td>
+					<td>{{ product.uWeight }}</td>
+					<td>{{ product.price }}</td>
+					<td>{{ product.quantity }}</td>
+					<td>{{ product.limitDate ? product.limitDate|date('Y-m-d') : '' }}</td>
+					<td>{{ product.location }}</td>
+					<td>
+						<a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
+						<a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="10">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_product_new') }}">Create new</a>
+{% endblock %}
