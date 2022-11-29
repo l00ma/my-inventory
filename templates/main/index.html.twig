@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{% include 'main/_bar.html.twig' %}
 	<style>
 		table,
 		th,
@@ -18,34 +17,39 @@
 			{{ app.user.name }}</h1>
 		<div class="row">
 			<div class="col">
-				<table>
-					<tr>
-						<th>Name</th>
-						<th>Brand</th>
-						<th>Category</th>
-						<th>Quty</th>
-						<th>U Price</th>
-						<th>U Weight</th>
-						<th>DLC</th>
-						<th>Location</th>
-						<th>Remark</th>
-						<th>Select</th>
-					</tr>
-					{% for product in app.user.products %}
+				{% if app.user.products|length > 0 %}
+					<table>
 						<tr>
-							<td>{{product.name}}</td>
-							<td>{{product.brand}}</td>
-							<td>{{product.category.name}}</td>
-							<td>{{product.quantity}}</td>
-							<td>{{product.price}}</td>
-							<td>{{product.uweight}}</td>
-							<td>{{product.limitdate|date('d-m-Y')}}</td>
-							<td>{{product.location}}</td>
-							<td>{{product.remark}}</td>
-							<td><input class="form-check-input" type="checkbox" value="{{product.id}}" id="flexCheckDefault"></td>
+							<th>Name</th>
+							<th>Brand</th>
+							<th>Category</th>
+							<th>Quty</th>
+							<th>U Price</th>
+							<th>U Weight</th>
+							<th>DLC</th>
+							<th>Location</th>
+							<th>Remark</th>
+							<th>Select</th>
 						</tr>
-					{% endfor %}
-				</table>
+						{% for product in app.user.products %}
+							<tr>
+								<td>{{product.name}}</td>
+								<td>{{product.brand}}</td>
+								<td>{{product.category.name}}</td>
+								<td>{{product.quantity}}</td>
+								<td>{{product.price}}</td>
+								<td>{{product.uweight}}</td>
+								<td>{{product.limitdate|date('d-m-Y')}}</td>
+								<td>{{product.location}}</td>
+								<td>{{product.remark}}</td>
+								<td><input class="form-check-input" type="checkbox" value="{{product.id}}" id="flexCheckDefault"></td>
+							</tr>
+						{% endfor %}
+					</table>
+				{% else %}
+					no records found
+				{% endif %}
+
 			</div>
 		</div>
 	</div>

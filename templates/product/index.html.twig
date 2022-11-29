@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{% include 'main/_bar.html.twig' %}
 	<h3>My products</h3>
 
 	<table class="table">
@@ -12,10 +11,10 @@
 			<tr>
 				<th>Name</th>
 				<th>Brand</th>
-				<th>U_weight</th>
+				<th>Unit weight</th>
 				<th>Price</th>
 				<th>Quantity</th>
-				<th>Limit_date</th>
+				<th>Peremption date</th>
 				<th>Location</th>
 				<th>actions</th>
 			</tr>
@@ -28,7 +27,7 @@
 					<td>{{ product.uWeight }}</td>
 					<td>{{ product.price }}</td>
 					<td>{{ product.quantity }}</td>
-					<td>{{ product.limitDate ? product.limitDate|date('Y-m-d') : '' }}</td>
+					<td>{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</td>
 					<td>{{ product.location }}</td>
 					<td>
 						<a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>

@@ -3,15 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\Category;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/product')]
+#[Route('/main/product')]
 class ProductController extends AbstractController
 {
 
@@ -56,28 +58,47 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
-    public function show(Product $product): Response
+    public function show(Product $product, ProductRepository $productRepository, int $id): Response
     {
-        return $this->render('product/show.html.twig', [
-            'product' => $product,
+        $user_ids = $this->getUser()->getProducts();
+        foreach ($user_ids as $ids) {
+            if ($ids->getId() == $id) {
+                return $this->render('product/show.html.twig', [
+                    'product' => $product,
+                ]);
+            }
+        }
+        return $this->render('product/index.html.twig', [
+            'products' => $productRepository->findAll(),
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository): Response
+    public function edit(ManagerRegistry $doctrine, Request $request, Product $product, ProductRepository $productRepository, int $id): Response
     {
-        $form = $this->createForm(ProductType::class, $product);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $productRepository->save($product, true);
+        $user_ids = $this->getUser()->getProducts();
+        foreach ($user_ids as $ids) {
+            if ($ids->getId() == $id) {
+                $form = $this->createForm(ProductType::class, $product);
+                $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $productRepository->save($product, true);
+
+                    return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+                }
+
+                $all_categories = $doctrine->getRepository(Category::class)->findAll();
+                return $this->renderForm('product/edit.html.twig', [
+                    'product' => $product,
+                    'form' => $form,
+                    'categories' => $all_categories,
+                ]);
+            }
         }
-
-        return $this->renderForm('product/edit.html.twig', [
-            'product' => $product,
-            'form' => $form,
+        return $this->render('product/index.html.twig', [
+            'products' => $productRepository->findAll(),
         ]);
     }
 
