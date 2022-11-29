@@ -75,12 +75,6 @@ class ProductType extends AbstractType
                     'required' => true
                 ]
             )
-            // ->add('category',  TextType::class, [
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ],
-            //     'required'   => true,
-            // ])
             ->add('photo');
     }
 
