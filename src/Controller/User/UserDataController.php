@@ -43,8 +43,8 @@ class UserDataController extends AbstractController
                 $this->addFlash('error', 'You must set a user name, an email and a currency');
             }
         }
-        return $this->render('user/edit.html.twig', [
-            'form' => $form->createView()
+        return $this->renderForm('user/edit.html.twig', [
+            'form' => $form
         ]);
     }
 }

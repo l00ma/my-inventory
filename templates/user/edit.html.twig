@@ -17,6 +17,10 @@
 		<h3>Change credentials</h2>
 	</div>
 	<div class="container mt-4 text-secondary">
-		{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+		<div class="row">
+			<div class="col-6">
+				{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+			</div>
+		</div>
 	</div>
 {% endblock %}

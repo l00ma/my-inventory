@@ -5,8 +5,14 @@
 
 {% block body %}
 	<h3>Add a product</h3>
-
-	{{ include('product/_form.html.twig') }}
-
-	<a href="{{ path('app_product_index') }}">back to list</a>
+	<div class="container mt-4 text-secondary">
+		<div class="row">
+			<div class="col-6">
+				{{ include('product/_form.html.twig') }}
+			</div>
+			<div class="col-1">
+				<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
+			</div>
+		</div>
+	</div>
 {% endblock %}

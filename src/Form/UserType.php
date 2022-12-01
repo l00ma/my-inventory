@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Currency;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -37,12 +38,15 @@ class UserType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            //->add('created_at')
             ->add(
                 'currency',
                 EntityType::class,
                 [
                     'class' => Currency::class,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->orderBy('u.name', 'ASC');
+                    },
                     'choice_label' => 'name',
                     'expanded' => false,
                     'multiple' => false,
