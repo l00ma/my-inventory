@@ -8,10 +8,58 @@
 	<div class="container mt-4 text-secondary">
 		<div class="row">
 			<div class="col-6">
-				{{ include('product/_form.html.twig') }}
-			</div>
-			<div class="col-1">
-				<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
+				{{ form_start(form) }}
+				<div class="container">
+					<div class="row g-3">
+						<div class="col-3">
+							{{ form_row(form.category) }}
+						</div>
+					</div>
+					<div class="row row-cols-lg-auto g-3 align-items-center">
+						<div class="col-6">
+							{{ form_row(form.brand) }}
+						</div>
+						<div class="col-6">
+							{{ form_row(form.name) }}
+						</div>
+					</div>
+					<div class="row g-3 align-items-center">
+						<div class="col-2">
+							{{ form_row(form.quantity) }}
+						</div>
+						<div class="col-2">
+							{{ form_row(form.price) }}
+						</div>
+						<div class="col-2">
+							{{ form_row(form.u_weight) }}
+						</div>
+						<div class="col-3">
+							{{ form_row(form.limit_date) }}
+						</div>
+					</div>
+					<div class="row g-3 align-items-center">
+						<div class="col-3">
+							{{ form_row(form.location) }}
+						</div>
+						<div class="col-8">
+							{{ form_row(form.remark) }}
+						</div>
+					</div>
+					<div class="row row-cols-lg-auto g-3 align-items-center">
+						<div class="col-3 mb-2">
+							{{ form_row(form.photo) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="d-flex align-items-center justify-content-evenly">
+							{{ form_row(form.save) }}
+							<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{ form_end(form, {render_rest: false}) }}
 			</div>
 		</div>
 	</div>

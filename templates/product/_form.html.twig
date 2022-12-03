@@ -40,10 +40,15 @@
 			{{ form_row(form.photo) }}
 		</div>
 	</div>
-	<div class="row row-cols-lg-auto g-3 align-items-center">
-		<div class="col-3">
-			<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+	<div class="row">
+		<div class="col">
+			<div class="d-flex align-items-center justify-content-evenly">
+			{{ form_row(form.save) }}
+			{{ form_row(form.delete) }}
+			{{ form_row(form.back) }}
+			</div>
 		</div>
 	</div>
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
 </div>
 {{ form_end(form) }}

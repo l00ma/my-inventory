@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -22,30 +23,64 @@ class Product
     private ?Category $category = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Product name must be at least {{ limit }} characters long',
+        maxMessage: 'Product name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Product brand must be at least {{ limit }} characters long',
+        maxMessage: 'Product brand cannot be longer than {{ limit }} characters',
+    )]
     private ?string $brand = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
     private ?int $u_weight = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
     private ?int $price = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?int $quantity = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $limit_date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Location must be at least {{ limit }} characters long',
+        maxMessage: 'Location cannot be longer than {{ limit }} characters',
+    )]
     private ?string $location = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 1024,
+        minMessage: 'Remark must be at least {{ limit }} characters long',
+        maxMessage: 'Remark cannot be longer than {{ limit }} characters',
+    )]
     private ?string $remark = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Assert\Image(
+        minWidth: 32,
+        maxWidth: 400,
+        minHeight: 32,
+        maxHeight: 400,
+        mimeTypes: ['image/jpeg', 'image/png']
+    )]
     private ?Photo $photo = null;
 
     public function getId(): ?int

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-//use App\Entity\Category;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
@@ -30,6 +29,8 @@ class ProductController extends AbstractController
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
+        // faire tri sur dates ici
+
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
         ]);
@@ -80,12 +81,22 @@ class ProductController extends AbstractController
             if ($ids->getId() == $id) {
                 $form = $this->createForm(ProductType::class, $product);
                 $form->handleRequest($request);
-
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $productRepository->save($product, true);
-                    return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+                    if ($form->getClickedButton() && 'back' === $form->getClickedButton()->getName()) {
+                        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+                    }
+                    if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
+                        $productRepository->save($product, true);
+                        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+                    }
+                    if ($form->getClickedButton() && 'delete' === $form->getClickedButton()->getName()) {
+                        $token = $request->request->get('_token');
+                        return $this->redirectToRoute('app_product_delete', [
+                            'id' => $id,
+                            '_token' => $token
+                        ], 307);
+                    }
                 }
-
                 return $this->renderForm('product/edit.html.twig', [
                     'product' => $product,
                     'form' => $form,
@@ -100,6 +111,7 @@ class ProductController extends AbstractController
     #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
+
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
             $productRepository->remove($product, true);
         }

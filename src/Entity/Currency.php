@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CurrencyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CurrencyRepository::class)]
@@ -16,6 +17,11 @@ class Currency
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 3,
+        max: 3,
+        exactMessage: 'This value should have exactly {{ limit }} characters.'
+    )]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'currency', targetEntity: User::class)]
