@@ -82,6 +82,7 @@ class Product
         mimeTypes: ['image/jpeg', 'image/png']
     )]
     private ?Photo $photo = null;
+    private ?string $image = null;
 
     public function getId(): ?int
     {

@@ -11,11 +11,12 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Positive;
 
@@ -43,11 +44,13 @@ class ProductType extends AbstractType
                 'required'   => false,
                 'constraints' => new Positive()
             ])
-            ->add('price', IntegerType::class, [
+            ->add('price', MoneyType::class, [
+                'currency' => null,
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 'required'   => false,
+                'divisor' => 100,
                 'constraints' => new Positive()
             ])
             ->add('quantity', IntegerType::class, [
@@ -92,19 +95,22 @@ class ProductType extends AbstractType
                     ]
                 ]
             )
-            ->add('photo', FileType::class, [
+            ->add('image', FileType::class, [
                 'required' => false,
+                'mapped' => false,
                 'attr' => [
-                    'accept' => 'image/jpeg',
                     'class' => 'form-control'
                 ],
                 'constraints' => [
-                    new Assert\File([
+                    new Image([
                         'maxSize' => '1024k',
-                        'mimeTypes' => 'image/jpeg',
-                    ]),
+                        'mimeTypes' => array(
+                            'image/jpeg',
+                            'image/jpg'
+                        )
+                    ])
                 ],
-                'label' => 'Ajouter une image',
+                'label' => 'Add a picture'
             ])
             ->add('save', SubmitType::class, [
                 'attr' => [

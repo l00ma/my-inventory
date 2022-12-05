@@ -27,7 +27,7 @@
 							<td>{{ product.uWeight }}</td>
 						</tr>
 						<tr>
-							<th>Price</th>
+							<th>Price ({{ app.user.currency.name }})</th>
 							<td>{{ product.price }}</td>
 						</tr>
 						<tr>
@@ -57,7 +57,11 @@
 						<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
 					</div>
 				</div>
-
+				<div class="col-6">
+				{% if product.photo is not empty %}
+					<img src="{{ asset('/images/' ~ product.photo.name) }}" alt="error while loading photo">
+				{% endif %}
+				</div>
 			</div>
 		</div>
 	</div>

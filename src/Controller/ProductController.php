@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\Photo;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +22,10 @@ class ProductController extends AbstractController
      */
     private $repository;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $repository, EntityManagerInterface $em)
     {
         $this->repository = $repository;
+        $this->em = $em;
     }
 
 
@@ -40,10 +43,21 @@ class ProductController extends AbstractController
     public function new(Request $request, ProductRepository $productRepository): Response
     {
         $product = new Product();
+        $image_product = new Photo();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $photo = $form['image']->getData();
+            if ($photo) {
+                $fichier = md5(uniqid()) . '.' . $photo->guessExtension();
+                $photo->move(
+                    $this->getParameter('images_directory'),
+                    $fichier
+                );
+                $image_product->setName($fichier);
+                $product->setPhoto($image_product);
+            }
             $id = $this->getUser();
             $product->setUser($id);
             $productRepository->save($product, true);
