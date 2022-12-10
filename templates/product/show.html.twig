@@ -6,7 +6,7 @@
 {% block body %}
 	<h3>Product Details</h3>
 	<div class="container mt-4 text-secondary">
-		<div class="row">
+		<div class="row align-items-start">
 			<div class="col-6">
 				<table class="table">
 					<tbody>
@@ -48,20 +48,18 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
-			<div class="row">
-				<div class="col-6">
-					<div class="d-flex align-items-center justify-content-evenly">
-						<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">edit</a>
-						{{ include('product/_delete_form.html.twig') }}
-						<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
-					</div>
+				<div class="d-flex align-items-center justify-content-evenly">
+					<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">edit</a>
+					{{ include('product/_delete_form.html.twig') }}
+					<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
 				</div>
-				<div class="col-6">
-				{% if product.photo is not empty %}
+			</div>
+			<div class="col-6 text-center">
+				{% if product.photo is empty %}
+					<h1>No photo</h1>
+				{% else %}
 					<img src="{{ asset('/images/' ~ product.photo.name) }}" alt="error while loading photo">
 				{% endif %}
-				</div>
 			</div>
 		</div>
 	</div>

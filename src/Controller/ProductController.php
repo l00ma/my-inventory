@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Entity\Photo;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Repository\PhotoRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,9 +89,10 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository, int $id): Response
+    public function edit(Request $request, Product $product, ProductRepository $productRepository, ?Photo $photo, int $id): Response
     {
         $user_ids = $this->getUser()->getProducts();
+
         foreach ($user_ids as $ids) {
             if ($ids->getId() == $id) {
                 $form = $this->createForm(ProductType::class, $product);
@@ -99,10 +101,34 @@ class ProductController extends AbstractController
                     if ($form->getClickedButton() && 'back' === $form->getClickedButton()->getName()) {
                         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
                     }
+
                     if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
+
+                        $if_photo = $form['image']->getData();
+                        if ($if_photo) {
+                            $fichier = md5(uniqid()) . '.' . $if_photo->guessExtension();
+                            $image_name = $product->getPhoto();
+
+                            if ($image_name) {
+                                $file_to_delete = $this->getParameter('images_directory') . '/' . $image_name->getName();
+                                unlink($file_to_delete);
+                                $product->getPhoto()->setName($fichier);
+                            } else {
+                                $image_product = new Photo();
+                                $image_product->setName($fichier);
+                                $product->setPhoto($image_product);
+                            }
+
+                            $if_photo->move(
+                                $this->getParameter('images_directory'),
+                                $fichier
+                            );
+                        }
+
                         $productRepository->save($product, true);
                         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
                     }
+
                     if ($form->getClickedButton() && 'delete' === $form->getClickedButton()->getName()) {
                         $token = $request->request->get('_token');
                         return $this->redirectToRoute('app_product_delete', [
@@ -127,6 +153,13 @@ class ProductController extends AbstractController
     {
 
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
+            $image_name = $product->getPhoto();
+            if ($image_name) {
+                $file_to_delete = $this->getParameter('images_directory') . '/' . $image_name->getName();
+                if ($file_to_delete) {
+                    unlink($file_to_delete);
+                }
+            }
             $productRepository->remove($product, true);
         }
 

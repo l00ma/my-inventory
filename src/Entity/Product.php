@@ -74,15 +74,7 @@ class Product
     private ?string $remark = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Assert\Image(
-        minWidth: 32,
-        maxWidth: 400,
-        minHeight: 32,
-        maxHeight: 400,
-        mimeTypes: ['image/jpeg', 'image/png']
-    )]
     private ?Photo $photo = null;
-    private ?string $image = null;
 
     public function getId(): ?int
     {
