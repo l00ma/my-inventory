@@ -6,8 +6,8 @@ use App\Entity\Product;
 use App\Entity\Photo;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
-use App\Repository\PhotoRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ class ProductController extends AbstractController
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
-        // faire tri sur dates ici
+        $this->getPeremption();
 
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
@@ -89,7 +89,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository, ?Photo $photo, int $id): Response
+    public function edit(Request $request, Product $product, ProductRepository $productRepository, int $id): Response
     {
         $user_ids = $this->getUser()->getProducts();
 
@@ -164,5 +164,30 @@ class ProductController extends AbstractController
         }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function resizeImage($image)
+    {
+    }
+
+    private function getPeremption(): void
+    {
+        // filtre les produits par dates
+        $now = new DateTime();
+        $dates = $this->getUser()->getProducts();
+        if ($dates) {
+            foreach ($dates as $product_date) {
+                $interval = $now->diff($product_date->getLimitDate());
+                $diff = (int) $interval->format('%r%a');
+                $product_date->setPeremptionTime($diff);
+                // Produits perimés
+                if ($diff <= 0) {
+                    $product_date->setPeremptionAlert('0');
+                    // Produits qui seront périmés dans le mois a venir
+                } elseif ($diff <= 31) {
+                    $product_date->setPeremptionAlert('1');
+                }
+            }
+        }
     }
 }

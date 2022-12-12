@@ -76,6 +76,10 @@ class Product
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Photo $photo = null;
 
+    private ?string $peremption_time = null;
+
+    private ?string $peremption_alert = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -209,6 +213,30 @@ class Product
     public function setPhoto(?Photo $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getPeremptionTime(): ?string
+    {
+        return $this->peremption_time;
+    }
+
+    public function setPeremptionTime(string $peremption_time): self
+    {
+        $this->peremption_time = $peremption_time;
+
+        return $this;
+    }
+
+    public function getPeremptionAlert(): ?string
+    {
+        return $this->peremption_alert;
+    }
+
+    public function setPeremptionAlert(string $peremption_alert): self
+    {
+        $this->peremption_alert = $peremption_alert;
 
         return $this;
     }

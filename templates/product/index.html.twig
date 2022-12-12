@@ -15,19 +15,22 @@
 				<th>Price ({{ app.user.currency.name }})</th>
 				<th>Quantity</th>
 				<th>Peremption date</th>
+				<th>Peremption time</th>
 				<th>Location</th>
 				<th>actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for product in app.user.products %}
-				<tr>
+				<tr {% if product.peremptionalert == '0' %} bgcolor='red' {% elseif product.peremptionalert == '1' %} bgcolor='orange' {% endif %}>
 					<td>{{ product.name }}</td>
 					<td>{{ product.brand }}</td>
 					<td>{{ product.uWeight }}</td>
 					<td>{{ product.price }}</td>
 					<td>{{ product.quantity }}</td>
 					<td>{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</td>
+					<td>{{ product.peremptiontime }}
+						days left</td>
 					<td>{{ product.location }}</td>
 					<td>
 						<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary">show</a>
