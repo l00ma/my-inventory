@@ -103,10 +103,10 @@ class ProductType extends AbstractType
                 ],
                 'constraints' => [
                     new Image([
-                        'minWidth' => '200',
-                        'maxWidth' => '400',
+                        'minWidth' => '400',
+                        'maxWidth' => '1024',
                         'minHeight' => '200',
-                        'maxHeight' => '400',
+                        'maxHeight' => '1024',
                         'mimeTypes' => array(
                             'image/jpeg',
                             'image/jpg',

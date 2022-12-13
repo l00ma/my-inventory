@@ -4,63 +4,67 @@
 {% endblock %}
 
 {% block body %}
-	<h3>Add a product</h3>
-	<div class="container mt-4 text-secondary">
-		<div class="row">
-			<div class="col-6">
-				{{ form_start(form) }}
-				<div class="container">
-					<div class="row g-3">
-						<div class="col-3">
-							{{ form_row(form.category) }}
+	<div class="container">
+		<div class="ms-2 text-secondary">
+			<h3>Add a product</h3>
+		</div>
+		<div class="container mt-4 text-secondary">
+			<div class="row">
+				<div class="col-6">
+					{{ form_start(form) }}
+					<div class="container">
+						<div class="row g-3">
+							<div class="col-3">
+								{{ form_row(form.category) }}
+							</div>
 						</div>
-					</div>
-					<div class="row row-cols-lg-auto g-3 align-items-center">
-						<div class="col-6">
-							{{ form_row(form.brand) }}
+						<div class="row row-cols-lg-auto g-3 align-items-center">
+							<div class="col-6">
+								{{ form_row(form.brand) }}
+							</div>
+							<div class="col-6">
+								{{ form_row(form.name) }}
+							</div>
 						</div>
-						<div class="col-6">
-							{{ form_row(form.name) }}
+						<div class="row g-3 align-items-center">
+							<div class="col-2">
+								{{ form_row(form.quantity) }}
+							</div>
+							<div class="col-2">
+								{{ form_row(form.price) }}
+							</div>
+							<div class="col-2">
+								{{ form_row(form.u_weight) }}
+							</div>
+							<div class="col-3">
+								{{ form_row(form.limit_date) }}
+							</div>
 						</div>
-					</div>
-					<div class="row g-3 align-items-center">
-						<div class="col-2">
-							{{ form_row(form.quantity) }}
+						<div class="row g-3 align-items-center">
+							<div class="col-3">
+								{{ form_row(form.location) }}
+							</div>
+							<div class="col-8">
+								{{ form_row(form.remark) }}
+							</div>
 						</div>
-						<div class="col-2">
-							{{ form_row(form.price) }}
+						<div class="row row-cols-lg-auto g-3 align-items-center">
+							<div class="col-3 mb-2">
+								{{ form_row(form.image) }}
+							</div>
 						</div>
-						<div class="col-2">
-							{{ form_row(form.u_weight) }}
-						</div>
-						<div class="col-3">
-							{{ form_row(form.limit_date) }}
-						</div>
-					</div>
-					<div class="row g-3 align-items-center">
-						<div class="col-3">
-							{{ form_row(form.location) }}
-						</div>
-						<div class="col-8">
-							{{ form_row(form.remark) }}
-						</div>
-					</div>
-					<div class="row row-cols-lg-auto g-3 align-items-center">
-						<div class="col-3 mb-2">
-							{{ form_row(form.image) }}
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="d-flex align-items-center justify-content-evenly">
-							{{ form_row(form.save) }}
-							<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
+						<div class="row">
+							<div class="col">
+								<div class="d-flex align-items-center justify-content-evenly">
+									{{ form_row(form.save) }}
+									<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
+								</div>
 							</div>
 						</div>
 					</div>
+					{{ form_widget(form._token) }}
+					{{ form_end(form, {render_rest: false}) }}
 				</div>
-				{{ form_widget(form._token) }}
-				{{ form_end(form, {render_rest: false}) }}
 			</div>
 		</div>
 	</div>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Service\Peremption;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class MainController extends AbstractController
     }
 
     #[Route('/main', name: 'app_main')]
-    public function index(): Response
+    public function index(Peremption $peremption): Response
     {
         $role = $this->getUser()->getRoles();
 
@@ -31,6 +32,8 @@ class MainController extends AbstractController
             if ($admin == "ROLE_ADMIN") {
                 return $this->redirectToRoute('app_admin');
             } else {
+                // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
+                $peremption->getPeremption($this->getUser());
                 return $this->render('main/index.html.twig');
             }
         }

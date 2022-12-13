@@ -4,45 +4,49 @@
 {% endblock %}
 
 {% block body %}
-	<h3>My products</h3>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Brand</th>
-				<th>Unit weight</th>
-				<th>Price ({{ app.user.currency.name }})</th>
-				<th>Quantity</th>
-				<th>Peremption date</th>
-				<th>Peremption time</th>
-				<th>Location</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for product in app.user.products %}
-				<tr {% if product.peremptionalert == '0' %} bgcolor='red' {% elseif product.peremptionalert == '1' %} bgcolor='orange' {% endif %}>
-					<td>{{ product.name }}</td>
-					<td>{{ product.brand }}</td>
-					<td>{{ product.uWeight }}</td>
-					<td>{{ product.price }}</td>
-					<td>{{ product.quantity }}</td>
-					<td>{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</td>
-					<td>{{ product.peremptiontime }}
-						days left</td>
-					<td>{{ product.location }}</td>
-					<td>
-						<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary">show</a>
-						<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">edit</a>
-					</td>
-				</tr>
-			{% else %}
+	<div class="container">
+		<div class="ms-2 text-secondary">
+			<h3>My full list of products</h3>
+		</div>
+		<table class="table">
+			<thead>
 				<tr>
-					<td colspan="10">no records found</td>
+					<th>Name</th>
+					<th>Brand</th>
+					<th>Unit weight</th>
+					<th>Price ({{ app.user.currency.name }})</th>
+					<th>Quantity</th>
+					<th>Expiration date</th>
+					<th>Expiration time</th>
+					<th>Location</th>
+					<th>actions</th>
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<a href="{{ path('app_product_new') }}" class="btn btn-primary">Create new</a>
+			</thead>
+			<tbody>
+				{% for product in app.user.products %}
+					<tr {% if product.peremptionalert == '0' %} class="table-danger" {% elseif product.peremptionalert == '1' %} class="table-warning" {% elseif product.peremptionalert == '2' %} class="table-light" {% endif %}>
+						<td>{{ product.name }}</td>
+						<td>{{ product.brand }}</td>
+						<td>{{ product.uWeight }}</td>
+						<td>{{ product.price }}</td>
+						<td>{{ product.quantity }}</td>
+						<td>{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</td>
+						<td>{{ product.peremptiontime }}
+							days left</td>
+						<td>{{ product.location }}</td>
+						<td>
+							<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary">show</a>
+							<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="10">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<a href="{{ path('app_product_new') }}" class="btn btn-primary">Add a product</a>
+	</div>
 {% endblock %}

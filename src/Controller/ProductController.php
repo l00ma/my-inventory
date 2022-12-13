@@ -7,7 +7,7 @@ use App\Entity\Photo;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
-use DateTime;
+use App\Service\Peremption;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,13 +27,14 @@ class ProductController extends AbstractController
     {
         $this->repository = $repository;
         $this->em = $em;
+        define('IMAGE_WIDTH', 400);
     }
 
-
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository, Peremption $peremption): Response
     {
-        $this->getPeremption();
+        // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
+        $peremption->getPeremption($this->getUser());
 
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
@@ -45,17 +46,29 @@ class ProductController extends AbstractController
     {
         $product = new Product();
         $image_product = new Photo();
+        // generation du formulaire
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // recuperation de l'image
             $photo = $form['image']->getData();
+            // si il y a une image, on la sauve dans BDD et repertoire images
             if ($photo) {
-                $fichier = md5(uniqid()) . '.' . $photo->guessExtension();
-                $photo->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
+                // on recupère l'extension en minuscules
+                $extention = strtolower($photo->guessExtension());
+                $fichier = md5(uniqid()) . '.' . $extention;
+
+                if ($extention == 'jpg' || $extention == 'jpeg') {
+                    $photo = imagecreatefromjpeg($photo);
+                    $photo = imagescale($photo, IMAGE_WIDTH, -1);
+                    imagejpeg($photo, $this->getParameter('images_directory') . '/' . $fichier);
+                }
+                if ($extention == 'png') {
+                    $photo = imagecreatefrompng($photo);
+                    $photo = imagescale($photo, IMAGE_WIDTH, -1);
+                    imagepng($photo, $this->getParameter('images_directory') . '/' . $fichier);
+                }
                 $image_product->setName($fichier);
                 $product->setPhoto($image_product);
             }
@@ -91,22 +104,28 @@ class ProductController extends AbstractController
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, ProductRepository $productRepository, int $id): Response
     {
+        //on empeche l'acces aux produts des autres utilisateurs
         $user_ids = $this->getUser()->getProducts();
-
         foreach ($user_ids as $ids) {
             if ($ids->getId() == $id) {
+                //on genere le formulaire
                 $form = $this->createForm(ProductType::class, $product);
                 $form->handleRequest($request);
                 if ($form->isSubmitted() && $form->isValid()) {
+                    //action si click sur BACK
                     if ($form->getClickedButton() && 'back' === $form->getClickedButton()->getName()) {
                         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
                     }
-
+                    //action si click sur SAVE
                     if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
-
+                        // recuperation de l'image
                         $if_photo = $form['image']->getData();
+                        // si il y a une image, on la sauve dans BDD et repertoire images
                         if ($if_photo) {
-                            $fichier = md5(uniqid()) . '.' . $if_photo->guessExtension();
+                            //on recupere l'extention de l'image en minuscule
+                            $extention = strtolower($if_photo->guessExtension());
+
+                            $fichier = md5(uniqid()) . '.' . $extention;
                             $image_name = $product->getPhoto();
 
                             if ($image_name) {
@@ -119,16 +138,23 @@ class ProductController extends AbstractController
                                 $product->setPhoto($image_product);
                             }
 
-                            $if_photo->move(
-                                $this->getParameter('images_directory'),
-                                $fichier
-                            );
+                            if ($extention == 'jpg' || $extention == 'jpeg') {
+                                $if_photo = imagecreatefromjpeg($if_photo);
+                                $if_photo = imagescale($if_photo, IMAGE_WIDTH, -1);
+                                imagejpeg($if_photo, $this->getParameter('images_directory') . '/' . $fichier);
+                            }
+
+                            if ($extention == 'png') {
+                                $if_photo = imagecreatefrompng($if_photo);
+                                $if_photo = imagescale($if_photo, IMAGE_WIDTH, -1);
+                                imagepng($if_photo, $this->getParameter('images_directory') . '/' . $fichier);
+                            }
                         }
 
                         $productRepository->save($product, true);
                         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
                     }
-
+                    //action si click sur DELETE
                     if ($form->getClickedButton() && 'delete' === $form->getClickedButton()->getName()) {
                         $token = $request->request->get('_token');
                         return $this->redirectToRoute('app_product_delete', [
@@ -164,30 +190,5 @@ class ProductController extends AbstractController
         }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    private function resizeImage($image)
-    {
-    }
-
-    private function getPeremption(): void
-    {
-        // filtre les produits par dates
-        $now = new DateTime();
-        $dates = $this->getUser()->getProducts();
-        if ($dates) {
-            foreach ($dates as $product_date) {
-                $interval = $now->diff($product_date->getLimitDate());
-                $diff = (int) $interval->format('%r%a');
-                $product_date->setPeremptionTime($diff);
-                // Produits perimés
-                if ($diff <= 0) {
-                    $product_date->setPeremptionAlert('0');
-                    // Produits qui seront périmés dans le mois a venir
-                } elseif ($diff <= 31) {
-                    $product_date->setPeremptionAlert('1');
-                }
-            }
-        }
     }
 }

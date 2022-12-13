@@ -4,45 +4,51 @@
 {% endblock %}
 
 {% block body %}
-	<style>
-		table,
-		th,
-		td {
-			border: 1px solid black;
-			border-collapse: collapse;
-		}
-	</style>
+
 	<div class="container">
-		<h1>Hello
-			{{ app.user.name }}</h1>
+		<div class="ms-2 text-secondary">
+			<h3>Hello
+				{{ app.user.name }},</h3>
+			<h4>Here is the list of products whose date will soon expire:
+			</h4>
+		</div>
 		<div class="row">
 			<div class="col">
 				{% if app.user.products|length > 0 %}
-					<table>
-						<tr>
-							<th>Name</th>
-							<th>Brand</th>
-							<th>Category</th>
-							<th>Quty</th>
-							<th>U Price</th>
-							<th>U Weight</th>
-							<th>DLC</th>
-							<th>Location</th>
-							<th>Remark</th>
-						</tr>
-						{% for product in app.user.products %}
+					<table class="table">
+						<thead>
 							<tr>
-								<td>{{product.name}}</td>
-								<td>{{product.brand}}</td>
-								<td>{{product.category.name}}</td>
-								<td>{{product.quantity}}</td>
-								<td>{{product.price}}</td>
-								<td>{{product.uweight}}</td>
-								<td>{{product.limitdate|date('d-m-Y')}}</td>
-								<td>{{product.location}}</td>
-								<td>{{product.remark}}</td>
+								<th>Name</th>
+								<th>Brand</th>
+								<th>Category</th>
+								<th>Quty</th>
+								<th>U Price</th>
+								<th>U Weight</th>
+								<th>Expiration date</th>
+								<th>Expiration time</th>
+								<th>Location</th>
+								<th>Remark</th>
 							</tr>
-						{% endfor %}
+						</thead>
+						<tbody>
+							{% for product in app.user.products %}
+								{% if product.peremptionalert is defined and product.peremptionalert is not null %}
+									<tr {% if product.peremptionalert == '0' %} class="table-danger" {% elseif product.peremptionalert == '1' %} class="table-warning" {% elseif product.peremptionalert == '2' %} class="table-light" {% endif %}>
+										<td>{{product.name}}</td>
+										<td>{{product.brand}}</td>
+										<td>{{product.category.name}}</td>
+										<td>{{product.quantity}}</td>
+										<td>{{product.price}}</td>
+										<td>{{product.uweight}}</td>
+										<td>{{product.limitdate|date('d/m/Y')}}</td>
+										<td>{{ product.peremptiontime }}
+											days left</td>
+										<td>{{product.location}}</td>
+										<td>{{product.remark}}</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
 					</table>
 				{% else %}
 					no records found

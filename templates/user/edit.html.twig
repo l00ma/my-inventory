@@ -13,13 +13,15 @@
 			{{ message }}
 		</div>
 	{% endfor %}
-	<div class="ms-2 text-secondary">
-		<h3>Change credentials</h2>
-	</div>
-	<div class="container mt-4 text-secondary">
-		<div class="row">
-			<div class="col-3">
-				{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+	<div class="container">
+		<div class="ms-2 text-secondary">
+			<h3>Change credentials</h2>
+		</div>
+		<div class="container mt-4 text-secondary">
+			<div class="row">
+				<div class="col-3">
+					{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+				</div>
 			</div>
 		</div>
 	</div>
