@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
-use App\Service\Peremption;
+use App\Service\PeremptionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,7 @@ class MainController extends AbstractController
     }
 
     #[Route('/main', name: 'app_main')]
-    public function index(Peremption $peremption): Response
+    public function index(PeremptionService $peremption): Response
     {
         $role = $this->getUser()->getRoles();
 

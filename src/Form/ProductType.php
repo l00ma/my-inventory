@@ -38,6 +38,7 @@ class ProductType extends AbstractType
                 'required'   => false,
             ])
             ->add('u_weight', IntegerType::class, [
+                'label' => 'Weight',
                 'attr' => [
                     'class' => 'form-control'
                 ],

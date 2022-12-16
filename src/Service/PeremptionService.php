@@ -5,7 +5,7 @@ namespace App\Service;
 use DateTime;
 use App\Entity\User;
 
-class Peremption
+class PeremptionService
 {
 
     public function getPeremption(User $user): void

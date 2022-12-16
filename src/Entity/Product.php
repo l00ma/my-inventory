@@ -57,7 +57,7 @@ class Product
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(
-        min: 2,
+        min: 1,
         max: 255,
         minMessage: 'Location must be at least {{ limit }} characters long',
         maxMessage: 'Location cannot be longer than {{ limit }} characters',
