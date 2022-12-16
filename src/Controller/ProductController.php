@@ -7,7 +7,6 @@ use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Service\PeremptionService;
-use App\Service\NewPhotoService;
 use App\Service\PhotoService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +41,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProductRepository $productRepository, NewPhotoService $newPhoto): Response
+    public function new(Request $request, ProductRepository $productRepository, PhotoService $newPhoto): Response
     {
         $product = new Product();
         // generation du formulaire
@@ -50,7 +49,6 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             // recuperation de l'image
             $photo = $form['image']->getData();
             // si il y a une image, on la sauve dans BDD et repertoire images
@@ -103,14 +101,12 @@ class ProductController extends AbstractController
                     }
                     //action si click sur SAVE
                     if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
-
                         // recuperation de l'image
                         $photo = $form['image']->getData();
-                        // si il y a une image, on la sauve dans BDD et repertoire images
+                        // si il y a une image a ajouter ou a modifier, on la sauve dans BDD et repertoire images
                         if ($photo) {
                             $modifyPhoto->addPhoto($product, $photo);
                         }
-
                         $productRepository->save($product, true);
 
                         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
