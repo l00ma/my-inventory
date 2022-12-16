@@ -61,7 +61,7 @@
 					{% if product.photo is empty %}
 						<h1>No photo</h1>
 					{% else %}
-						<img src="{{ asset('/images/' ~ product.photo.name) }}" alt="error while loading photo">
+						<img src="{{ asset('/upload/image/' ~ product.photo.name) }}" alt="error while loading photo">
 					{% endif %}
 				</div>
 			</div>
