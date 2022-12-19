@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Service\PeremptionService;
 use App\Service\PhotoService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,7 @@ class ProductController extends AbstractController
         $peremption->getPeremption($this->getUser());
 
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $productRepository->findAllProductByDate($this->getUser()),
         ]);
     }
 
@@ -68,28 +69,13 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
-    public function show(Product $product, ProductRepository $productRepository, int $id): Response
-    {
-        $user_ids = $this->getUser()->getProducts();
-        foreach ($user_ids as $ids) {
-            if ($ids->getId() == $id) {
-                return $this->render('product/show.html.twig', [
-                    'product' => $product,
-                ]);
-            }
-        }
-        return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, ProductRepository $productRepository, PhotoService $modifyPhoto, int $id): Response
     {
+
+        $user_products = $productRepository->findBy(['user' => $this->getUser()]);
         //on empeche l'acces aux produts des autres utilisateurs
-        $user_ids = $this->getUser()->getProducts();
-        foreach ($user_ids as $ids) {
+        foreach ($user_products as $ids) {
             if ($ids->getId() == $id) {
                 //on genere le formulaire
                 $form = $this->createForm(ProductType::class, $product);
@@ -126,9 +112,21 @@ class ProductController extends AbstractController
                 ]);
             }
         }
-        return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
-        ]);
+        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
+    public function show(Product $product, ProductRepository $productRepository, int $id): Response
+    {
+        $user_products = $productRepository->findBy(['user' => $this->getUser()]);
+        foreach ($user_products as $ids) {
+            if ($ids->getId() == $id) {
+                return $this->render('product/show.html.twig', [
+                    'product' => $product,
+                ]);
+            }
+        }
+        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]

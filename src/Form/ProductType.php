@@ -38,7 +38,7 @@ class ProductType extends AbstractType
                 'required'   => false,
             ])
             ->add('u_weight', IntegerType::class, [
-                'label' => 'Weight',
+                'label' => 'Weight(g)',
                 'attr' => [
                     'class' => 'form-control'
                 ],
@@ -125,7 +125,7 @@ class ProductType extends AbstractType
             ->add('delete', SubmitType::class, [
                 'label' => 'Delete',
                 'attr' => [
-                    'class' => 'form-control btn btn-primary'
+                    'class' => 'form-control btn btn-danger'
                 ],
             ])
             ->add('back', SubmitType::class, [

@@ -38,6 +38,39 @@ class ProductRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    // creer une query pour avoir les id produits par user
+
+    /**
+     * @return Product[]
+     */
+    public function findProductByDate($date_min, $date_max, $user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.limit_date < :date_min')
+            ->andWhere('p.limit_date >= :date_max')
+            ->andWhere('p.user = :user')
+            ->setParameter('date_min', $date_min)
+            ->setParameter('date_max', $date_max)
+            ->setParameter('user', $user)
+            ->orderBy('p.limit_date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function findAllProductByDate($user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.user = :user')
+            ->orderBy('p.limit_date', 'ASC')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Product[] Returns an array of Product objects
