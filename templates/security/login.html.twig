@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!
+{% block title %}Log in
 {% endblock %}
 
 {% block body %}
@@ -33,14 +33,14 @@
 							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 						</div>
 						{#
-												Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-												See https://symfony.com/doc/current/security/remember_me.html
-												<div class="checkbox mb-3">
-																																														            <label>
-																																														                <input type="checkbox" name="_remember_me"> Remember me
-																																														            </label>
-																																														        </div>
-																																														    #}
+																		Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+																		See https://symfony.com/doc/current/security/remember_me.html
+																		<div class="checkbox mb-3">
+																																																				            <label>
+																																																				                <input type="checkbox" name="_remember_me"> Remember me
+																																																				            </label>
+																																																				        </div>
+																																																				    #}
 
 						<button class="mt-2 btn btn-primary" type="submit">
 							Sign in

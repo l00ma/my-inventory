@@ -13,7 +13,7 @@
 		<div class="row mt-2">
 			<div class="col ms-2 text-secondary">
 				{% if app.user.products.count %}
-					{% if perime|length > 0 %}
+					{% if perime|length %}
 						<h4>List of products whose date is expired:
 						</h4>
 						<span class="badge text-bg-primary">
@@ -76,7 +76,7 @@
 						<h4>Congratulation: no expired product.
 						</h4>
 					{% endif %}
-					{% if soon_perime|length > 0 %}
+					{% if soon_perime|length %}
 						<h4>List of products whose date will expire soon:
 						</h4>
 						<span class="badge text-bg-primary">
