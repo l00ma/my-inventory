@@ -8,6 +8,7 @@ use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Service\PeremptionService;
 use App\Service\PhotoService;
+use App\Service\ReportService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,12 +31,15 @@ class ProductController extends AbstractController
     }
 
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository, PeremptionService $peremption): Response
+    public function index(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption): Response
     {
         // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
         $peremption->getPeremption($this->getUser());
+        //on recupère le poids total que représentent tous les produits de l'utilisateur
+        $report = $reportService->getReport($this->getUser());
 
         return $this->render('product/index.html.twig', [
+            'report' => $report,
             'products' => $productRepository->findAllProductByDate($this->getUser()),
         ]);
     }
@@ -71,61 +75,54 @@ class ProductController extends AbstractController
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, ProductRepository $productRepository, PhotoService $modifyPhoto, int $id): Response
     {
-
-        $user_products = $productRepository->findBy(['user' => $this->getUser()]);
-        //on empeche l'acces aux produts des autres utilisateurs
-        foreach ($user_products as $ids) {
-            if ($ids->getId() == $id) {
-                //on genere le formulaire
-                $form = $this->createForm(ProductType::class, $product);
-                $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid()) {
-                    //action si click sur BACK
-                    if ($form->getClickedButton() && 'back' === $form->getClickedButton()->getName()) {
-                        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
-                    }
-                    //action si click sur SAVE
-                    if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
-                        // recuperation de l'image
-                        $photo = $form['image']->getData();
-                        // si il y a une image a ajouter ou a modifier, on la sauve dans BDD et repertoire images
-                        if ($photo) {
-                            $modifyPhoto->addPhoto($product, $photo);
-                        }
-                        $productRepository->save($product, true);
-
-                        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
-                    }
-                    //action si click sur DELETE
-                    if ($form->getClickedButton() && 'delete' === $form->getClickedButton()->getName()) {
-                        $token = $request->request->get('_token');
-                        return $this->redirectToRoute('app_product_delete', [
-                            'id' => $id,
-                            '_token' => $token
-                        ], 307);
-                    }
+        //on empeche l'acces aux produits des autres utilisateurs
+        if ($product->getUser() !== $this->getUser()) {
+            throw $this->createNotFoundException('The product does not exist');
+        }
+        //on genere le formulaire
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //action si click sur BACK
+            if ($form->getClickedButton() && 'back' === $form->getClickedButton()->getName()) {
+                return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            }
+            //action si click sur SAVE
+            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
+                // recuperation de l'image
+                $photo = $form['image']->getData();
+                // si il y a une image a ajouter ou a modifier, on la sauve dans BDD et repertoire images
+                if ($photo) {
+                    $modifyPhoto->addPhoto($product, $photo);
                 }
-                return $this->renderForm('product/edit.html.twig', [
-                    'product' => $product,
-                    'form' => $form,
-                ]);
+                $productRepository->save($product, true);
+
+                return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            }
+            //action si click sur DELETE
+            if ($form->getClickedButton() && 'delete' === $form->getClickedButton()->getName()) {
+                $token = $request->request->get('_token');
+                return $this->redirectToRoute('app_product_delete', [
+                    'id' => $id,
+                    '_token' => $token
+                ], 307);
             }
         }
-        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        return $this->renderForm('product/edit.html.twig', [
+            'product' => $product,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
-    public function show(Product $product, ProductRepository $productRepository, int $id): Response
+    public function show(Product $product): Response
     {
-        $user_products = $productRepository->findBy(['user' => $this->getUser()]);
-        foreach ($user_products as $ids) {
-            if ($ids->getId() == $id) {
-                return $this->render('product/show.html.twig', [
-                    'product' => $product,
-                ]);
-            }
+        if ($product->getUser() !== $this->getUser()) {
+            throw $this->createNotFoundException('The product does not exist');
         }
-        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        return $this->render('product/show.html.twig', [
+            'product' => $product,
+        ]);
     }
 
     #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]

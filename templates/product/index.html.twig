@@ -20,6 +20,14 @@
 								items
 							{% endif %}
 						</span>
+						{% if report[0] != '0' %}
+							<span class="badge text-bg-primary">{{ report[0] }}
+								Kg</span>
+						{% endif %}
+						{% if report[1] != '0' %}
+							<span class="badge text-bg-primary">{{ report[1] }}
+								{{ app.user.currency.name }}</span>
+						{% endif %}
 					{% else %}
 						Start your inventory by adding your first product.
 					{% endif %}
