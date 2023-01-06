@@ -44,10 +44,24 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProductRepository $productRepository, PhotoService $newPhoto): Response
+    #[Route('/new/{id<\d+>?}', name: 'app_product_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, ProductRepository $productRepository, PhotoService $newPhoto, ?int $id): Response
     {
         $product = new Product();
+
+        if ($id) {
+            $cloned = $productRepository->find($id);
+            if ($cloned->getUser() !== $this->getUser()) {
+                throw $this->createNotFoundException('The product does not exist');
+            }
+            $product->setCategory($cloned->getCategory());
+            $product->setBrand($cloned->getBrand());
+            $product->setName($cloned->getName());
+            $product->setUWeight($cloned->getUWeight());
+            $product->setLocation($cloned->getLocation());
+            $product->setRemark($cloned->getRemark());
+        }
+
         // generation du formulaire
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
@@ -72,7 +86,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Request $request, Product $product, ProductRepository $productRepository, PhotoService $modifyPhoto, int $id): Response
     {
         //on empeche l'acces aux produits des autres utilisateurs
@@ -114,7 +128,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_product_show', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function show(Product $product): Response
     {
         if ($product->getUser() !== $this->getUser()) {
@@ -125,7 +139,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_product_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
 
