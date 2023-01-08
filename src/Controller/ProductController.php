@@ -30,17 +30,29 @@ class ProductController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/', name: 'app_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption): Response
+    #[Route('/{sort?}', name: 'app_product_index', methods: ['GET'])]
+    public function index(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption, ?string $sort): Response
     {
+        //on recupère les poids et prix totaux que représentent tous les produits de l'utilisateur
+        $report = $reportService->getReport($this->getUser());
         // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
         $peremption->getPeremption($this->getUser());
-        //on recupère le poids total que représentent tous les produits de l'utilisateur
-        $report = $reportService->getReport($this->getUser());
+
+        if ($sort == 'name') {
+            $productsOrder = $productRepository->findAllProductByName($this->getUser());
+        } elseif ($sort == 'brand') {
+            $productsOrder = $productRepository->findAllProductByBrand($this->getUser());
+        } elseif ($sort == 'category') {
+            $productsOrder = $productRepository->findAllProductByCategory($this->getUser());
+        } elseif ($sort == 'location') {
+            $productsOrder = $productRepository->findAllProductByLocation($this->getUser());
+        } else {
+            $productsOrder = $productRepository->findAllProductByDate($this->getUser());
+        }
 
         return $this->render('product/index.html.twig', [
             'report' => $report,
-            'products' => $productRepository->findAllProductByDate($this->getUser()),
+            'products' => $productsOrder
         ]);
     }
 
@@ -50,10 +62,12 @@ class ProductController extends AbstractController
         $product = new Product();
 
         if ($id) {
+            // en cas d'id inexistante ou n'appartenant pas au user courant, on declare une erreur 404 
             $cloned = $productRepository->find($id);
-            if ($cloned->getUser() !== $this->getUser()) {
+            if (is_null($cloned) || $cloned->getUser() !== $this->getUser()) {
                 throw $this->createNotFoundException('The product does not exist');
             }
+            //clonage du produit
             $product->setCategory($cloned->getCategory());
             $product->setBrand($cloned->getBrand());
             $product->setName($cloned->getName());
@@ -86,10 +100,10 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
+    #[Route('/{id<\d+>}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, ProductRepository $productRepository, PhotoService $modifyPhoto, int $id): Response
     {
-        //on empeche l'acces aux produits des autres utilisateurs
+        // en cas d'id n'appartenant pas au user courant, on declare une erreur 404 
         if ($product->getUser() !== $this->getUser()) {
             throw $this->createNotFoundException('The product does not exist');
         }
@@ -128,9 +142,10 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_product_show', methods: ['GET'], requirements: ['id' => '\d+'])]
+    #[Route('/{id<\d+>}', name: 'app_product_show', methods: ['GET'])]
     public function show(Product $product): Response
     {
+        // en cas d'id n'appartenant pas au user courant, on declare une erreur 404 
         if ($product->getUser() !== $this->getUser()) {
             throw $this->createNotFoundException('The product does not exist');
         }
@@ -139,7 +154,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_product_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+    #[Route('/{id<\d+>}', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
 

@@ -39,15 +39,25 @@
 			<table class="table table-hover" style="font-size:80%; width: 100%; white-space: nowrap; table-layout: fixed;">
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>Brand</th>
-						<th>Category</th>
+						<th>
+							<a href="{{ path('app_product_index', {'sort': 'name'}) }}" style="text-decoration: none; color:inherit;">Name</a>
+						</th>
+						<th>
+							<a href="{{ path('app_product_index', {'sort': 'brand'}) }}" style="text-decoration: none; color:inherit;">Brand</th>
+						</th>
+						<th>
+							<a href="{{ path('app_product_index', {'sort': 'category'}) }}" style="text-decoration: none; color:inherit;">Category</th>
+						</th>
 						<th>Quantity</th>
 						<th>Price ({{ app.user.currency.name }})</th>
 						<th>Weight (Kg)</th>
-						<th>Expiration date</th>
+						<th>
+							<a href="{{ path('app_product_index') }}" style="text-decoration: none; color:inherit;">Expiration date</th>
+						</th>
 						<th>Expiration time</th>
-						<th>Location</th>
+						<th>
+							<a href="{{ path('app_product_index', {'sort': 'location'}) }}" style="text-decoration: none; color:inherit;">Location</th>
+						</th>
 						<th>Remark</th>
 						<th>actions</th>
 					</tr>

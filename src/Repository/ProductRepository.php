@@ -14,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
 class ProductRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -67,6 +68,62 @@ class ProductRepository extends ServiceEntityRepository
             ->select('p')
             ->where('p.user = :user')
             ->orderBy('p.limit_date', 'ASC')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function findAllProductByName($user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.user = :user')
+            ->orderBy('p.name', 'ASC')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function findAllProductByBrand($user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.user = :user')
+            ->orderBy('p.brand', 'ASC')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function findAllProductByCategory($user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.user = :user')
+            ->orderBy('p.category', 'ASC')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function findAllProductByLocation($user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.user = :user')
+            ->orderBy('p.location', 'ASC')
             ->setParameter('user', $user)
             ->getQuery()
             ->getResult();
