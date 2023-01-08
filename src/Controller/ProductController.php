@@ -142,7 +142,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id<\d+>}', name: 'app_product_show', methods: ['GET'])]
+    #[Route('/show/{id<\d+>}', name: 'app_product_show', methods: ['GET'])]
     public function show(Product $product): Response
     {
         // en cas d'id n'appartenant pas au user courant, on declare une erreur 404 
