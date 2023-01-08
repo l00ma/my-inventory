@@ -30,29 +30,17 @@ class ProductController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/{sort?}', name: 'app_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption, ?string $sort): Response
+    #[Route('/', name: 'app_product_index', methods: ['GET'])]
+    public function index(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption): Response
     {
         //on recupère les poids et prix totaux que représentent tous les produits de l'utilisateur
         $report = $reportService->getReport($this->getUser());
         // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
         $peremption->getPeremption($this->getUser());
 
-        if ($sort == 'name') {
-            $productsOrder = $productRepository->findAllProductByName($this->getUser());
-        } elseif ($sort == 'brand') {
-            $productsOrder = $productRepository->findAllProductByBrand($this->getUser());
-        } elseif ($sort == 'category') {
-            $productsOrder = $productRepository->findAllProductByCategory($this->getUser());
-        } elseif ($sort == 'location') {
-            $productsOrder = $productRepository->findAllProductByLocation($this->getUser());
-        } else {
-            $productsOrder = $productRepository->findAllProductByDate($this->getUser());
-        }
-
         return $this->render('product/index.html.twig', [
             'report' => $report,
-            'products' => $productsOrder
+            'products' => $productRepository->findAllProductByDate($this->getUser()),
         ]);
     }
 
@@ -61,6 +49,7 @@ class ProductController extends AbstractController
     {
         $product = new Product();
 
+        //si il y un id, on doit clonner le produit correspondant à l'id
         if ($id) {
             // en cas d'id inexistante ou n'appartenant pas au user courant, on declare une erreur 404 
             $cloned = $productRepository->find($id);
@@ -100,7 +89,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id<\d+>}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id<\d+>}', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, ProductRepository $productRepository, PhotoService $modifyPhoto, int $id): Response
     {
         // en cas d'id n'appartenant pas au user courant, on declare une erreur 404 
