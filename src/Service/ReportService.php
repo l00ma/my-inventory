@@ -7,10 +7,10 @@ use App\Entity\User;
 class ReportService
 {
 
-    public function getReport(User $user): array
+    public function getReport(User $user, array $products): array
     {
         // filtre les produits et calcule le poids total + prix total
-        $products = $user->getProducts();
+        //$products = $user->getProducts();
         $totalweight = $totalprice = 0;
         if ($products) {
             foreach ($products as $product) {

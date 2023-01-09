@@ -33,14 +33,16 @@ class ProductController extends AbstractController
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption): Response
     {
-        //on recupère les poids et prix totaux que représentent tous les produits de l'utilisateur
-        $report = $reportService->getReport($this->getUser());
+        //o recupère la liste des produits de l'utilisateur
+        $products = $productRepository->findAllProductByDate($this->getUser());
+        //on recupère les poids et prix totaux que représentent des produits séléctionnés
+        $report = $reportService->getReport($this->getUser(), $products);
         // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
         $peremption->getPeremption($this->getUser());
 
         return $this->render('product/index.html.twig', [
             'report' => $report,
-            'products' => $productRepository->findAllProductByDate($this->getUser()),
+            'products' => $products,
         ]);
     }
 
@@ -159,5 +161,32 @@ class ProductController extends AbstractController
         }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/search', name: 'app_product_search', methods: ['GET'])]
+    public function searchResult(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption, Request $request): Response
+    {
+        //on récupère la valeur de la query
+        $query = $request->query->get('query');
+
+        if (empty($query)) {
+            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        }
+        // on récupère les produits qui correspondent à la recherche
+        $products = $productRepository->findSearchQuery(
+            $this->getUser(),
+            $query
+        );
+        //on recupère les poids et prix totaux que représentent des produits séléctionnés
+        $report = $reportService->getReport($this->getUser(), $products);
+        // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
+        $peremption->getPeremption($this->getUser());
+
+
+        return $this->render('product/searchresult.html.twig', [
+            'query' => $query,
+            'report' => $report,
+            'products' => $products
+        ]);
     }
 }

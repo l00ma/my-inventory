@@ -73,6 +73,32 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Find/search products by name or brand
+    /**
+     * @return Product[]
+     */
+    public function findSearchQuery($user, string $query)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb
+            ->where(
+                $qb->expr()->andX(
+                    $qb->expr()->orX(
+                        $qb->expr()->like('p.name', ':query'),
+                        $qb->expr()->like('p.brand', ':query'),
+                    ),
+                    $qb->expr()->isNotNull('p.limit_date')
+                )
+            )
+            ->andWhere('p.user = :user')
+            ->setParameter('query', '%' . $query . '%')
+            ->setParameter('user', $user);
+
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Product[] Returns an array of Product objects
     //     */
