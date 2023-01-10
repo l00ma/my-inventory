@@ -28,7 +28,7 @@
 								{{ app.user.currency.name }}</span>
 						{% endif %}
 					{% else %}
-						Sorry, no result found for "{{ query }}":(
+						<p>Sorry, no result found for "{{ query }}":(</p>
 						<a href="{{ path('app_product_index') }}" class="btn btn-primary" style="float: left">Back to products list</a>
 					{% endif %}
 				</div>

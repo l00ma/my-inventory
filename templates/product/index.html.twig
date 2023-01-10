@@ -37,10 +37,11 @@
 							<span class="badge text-bg-primary">{{ report[1] }}
 								{{ app.user.currency.name }}</span>
 						{% endif %}
+						<a href="{{ path('app_product_new') }}" class="btn btn-primary" style="float: right">Add a product</a>
 					{% else %}
-						Start your inventory by adding your first product.
+						<p>Start your inventory by adding your first product.</p>
+						<a href="{{ path('app_product_new') }}" class="btn btn-primary" style="float: left">Add a product</a>
 					{% endif %}
-					<a href="{{ path('app_product_new') }}" class="btn btn-primary" style="float: right">Add a product</a>
 				</div>
 			</div>
 		</div>
@@ -57,7 +58,6 @@
 						<th class="js-sort-date" style="cursor: pointer;">Expiration date</th>
 						<th>Expiration time</th>
 						<th class="js-sort-string" style="cursor: pointer;">Location</th>
-						<th class="js-sort-string" style="cursor: pointer;">Remark</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -82,7 +82,6 @@
 								{% endif %}
 							</td>
 							<td>{{ product.location }}</td>
-							<td style="overflow: hidden; text-overflow: ellipsis">{{product.remark}}</td>
 							<td>
 								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm">show</a>
 								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm">edit</a>
