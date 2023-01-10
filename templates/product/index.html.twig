@@ -4,6 +4,16 @@
 {% endblock %}
 
 {% block body %}
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
 	<div class="container-fluid">
 		<div class="ms-2 text-secondary">
 			<div class="row mt-2">

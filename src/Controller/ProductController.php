@@ -51,7 +51,7 @@ class ProductController extends AbstractController
     {
         $product = new Product();
 
-        //si il y un id, on doit clonner le produit correspondant à l'id
+        //si il y un id, on doit cloner le produit correspondant à l'id
         if ($id) {
             // en cas d'id inexistante ou n'appartenant pas au user courant, on declare une erreur 404 
             $cloned = $productRepository->find($id);
@@ -81,6 +81,7 @@ class ProductController extends AbstractController
             $id = $this->getUser();
             $product->setUser($id);
             $productRepository->save($product, true);
+            $this->addFlash('success', 'Product successfully created');
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -115,6 +116,7 @@ class ProductController extends AbstractController
                     $modifyPhoto->addPhoto($product, $photo);
                 }
                 $productRepository->save($product, true);
+                $this->addFlash('success', 'Product successfully saved');
 
                 return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -158,6 +160,7 @@ class ProductController extends AbstractController
                 }
             }
             $productRepository->remove($product, true);
+            $this->addFlash('success', 'Product successfully deleted');
         }
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
@@ -169,7 +172,8 @@ class ProductController extends AbstractController
         //on récupère la valeur de la query
         $query = $request->query->get('query');
 
-        if (empty($query)) {
+        if (strlen($query) < 4) {
+            $this->addFlash('error', 'Search must contains at least 4 characters');
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
         // on récupère les produits qui correspondent à la recherche

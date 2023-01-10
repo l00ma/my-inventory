@@ -4,6 +4,16 @@
 {% endblock %}
 
 {% block body %}
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
 	<section class="container my-3">
 		<div class="row">
 			<div class="col">
@@ -32,21 +42,13 @@
 
 							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 						</div>
-						{#
-																		Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-																		See https://symfony.com/doc/current/security/remember_me.html
-																		<div class="checkbox mb-3">
-																																																				            <label>
-																																																				                <input type="checkbox" name="_remember_me"> Remember me
-																																																				            </label>
-																																																				        </div>
-																																																				    #}
-
 						<button class="mt-2 btn btn-primary" type="submit">
 							Sign in
 						</button>
+						<a href="{{ path('forgotten_password') }}" class="btn btn-secondary mt-2 btn-sm">Reset password</a>
 					</div>
 				</form>
+
 			</div>
 		</div>
 	</section>

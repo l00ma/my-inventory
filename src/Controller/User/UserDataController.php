@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -38,11 +39,13 @@ class UserDataController extends AbstractController
             $user->setPassword($passwordEncoder->hashPassword($user, $form["password"]->getData()));
             try {
                 $userRepository->save($user, true);
-                $this->addFlash('success', 'Datas successfully saved');
+                $this->addFlash('success', 'User datas successfully saved');
             } catch (Exception $ex) {
                 $this->addFlash('error', 'You must set a user name, an email and a currency');
             }
+            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
+
         return $this->renderForm('user/edit.html.twig', [
             'form' => $form
         ]);

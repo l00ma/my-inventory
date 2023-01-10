@@ -53,6 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $currency_id = null;
 
+    #[ORM\Column(type: 'string', length: 100)]
+    private $resetToken;
+
     #[ORM\ManyToOne(inversedBy: 'user')]
     private ?Currency $currency = null;
 
@@ -226,6 +229,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $product->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }
