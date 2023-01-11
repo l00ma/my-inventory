@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class UserType extends AbstractType
 {
@@ -28,9 +29,17 @@ class UserType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field, form-control']],
-                'required' => true,
+                //'required' => true,
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
+                'constraints' => [
+                    new Length([
+                        'min' => 8,
+                        'max' => 50,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'maxMessage' => 'Your password should be no more than {{ limit }} characters'
+                    ]),
+                ],
             ])
 
             ->add('name', TextType::class, [

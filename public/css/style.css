@@ -1,0 +1,10 @@
+table {
+    font-size: 80%;
+}
+
+td {
+    width: 1%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}

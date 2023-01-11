@@ -35,10 +35,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 128)]
     #[Assert\Length(
-        min: 2,
-        max: 255,
+        min: 4,
+        max: 128,
         minMessage: 'Your name must be at least {{ limit }} characters long',
         maxMessage: 'Your name cannot be longer than {{ limit }} characters',
     )]
