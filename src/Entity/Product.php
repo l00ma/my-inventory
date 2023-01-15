@@ -80,6 +80,8 @@ class Product
 
     private ?string $peremption_alert = null;
 
+    private ?string $peremption_css = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -237,6 +239,18 @@ class Product
     public function setPeremptionAlert(string $peremption_alert): self
     {
         $this->peremption_alert = $peremption_alert;
+
+        return $this;
+    }
+
+    public function getPeremptionCss(): ?string
+    {
+        return $this->peremption_css;
+    }
+
+    public function setPeremptionCss(string $peremption_css): self
+    {
+        $this->peremption_css = $peremption_css;
 
         return $this;
     }

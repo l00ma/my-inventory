@@ -40,7 +40,8 @@ class MainController extends AbstractController
 
                 $product_rep = $doctrine->getRepository(Product::class);
                 $soon = new DateTime();
-                $soon->modify('+ 92 days');
+                $days = "92";
+                $soon->modify('+ ' . $days . ' days');
 
                 return $this->render('main/index.html.twig', [
                     'perime' => $product_rep->findProductByDate(new DateTime(), new DateTime('1970-01-01'), $this->getUser()),

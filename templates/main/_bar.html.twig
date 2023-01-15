@@ -7,11 +7,10 @@
 {# liste des pages où la barre de recherche doit être affichée #}
 {% set pages_with_search = ['app_product_index', 'app_main', 'app_product_search'] %}
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f7f7f7">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark">
 	<div class="container-fluid">
 
-		<a class="navbar-brand" href="{{ path ('app_home') }}"><img src="{{ asset('icon/favicon-64x64.png') }}" alt="logo" width="52" class="d-inline-block align-text-bottom"><span class="fs-4 fw-bolder ms-1">
-				My Inventory</span>
+		<a class="navbar-brand" href="{{ path ('app_home') }}"><img src="{{ asset('icon/myInventory.png') }}" alt="logo" height="36" class="d-inline-block align-text-bottom">
 			<span class="ps-3 d-inline-block align-middle" id="bar"></span>
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#my_navbar" aria-controls="my_navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,22 +20,22 @@
 			{% if app.request.get('_route') in pages_with_search %}
 				<form class="d-flex" action="{{ path('app_product_search') }}">
 					<input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">Search</button>
+					<button class="btn btn-outline-light" type="submit">Search</button>
 				</form>
 			{% endif %}
 			<div class="collapse navbar-collapse" id="my_navbar">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-row">
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Home page" href="{{ path ('app_main') }}">Home</a>
+						<a class="nav-link text-light" title="Home page" href="{{ path ('app_main') }}">Home</a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Products list" href="{{ path ('app_product_index') }}">Products list</a>
+						<a class="nav-link text-light" title="Products list" href="{{ path ('app_product_index') }}">Products list</a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Edit user" href="{{ path ('app_user.edit') }}">Edit user</a>
+						<a class="nav-link text-light" title="Edit user" href="{{ path ('app_user.edit') }}">Edit user</a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Sign out" href="{{ path ('app_logout') }}">Sign out</a>
+						<a class="nav-link text-light" title="Sign out" href="{{ path ('app_logout') }}">Sign out</a>
 					</li>
 				</ul>
 			</div>
@@ -44,10 +43,10 @@
 			<div class="collapse navbar-collapse" id="my_navbar">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex flex-row">
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Sign in" href="{{ path ('app_login') }}">Sign in</a>
+						<a class="nav-link text-light" title="Sign in" href="{{ path ('app_login') }}">Sign in</a>
 					</li>
 					<li class="nav-item me-3 me-lg-0">
-						<a class="nav-link" title="Register" href="{{ path ('app_register') }}">Register</a>
+						<a class="nav-link text-light" title="Register" href="{{ path ('app_register') }}">Register</a>
 					</li>
 				</ul>
 			</div>

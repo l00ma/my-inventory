@@ -32,8 +32,6 @@
 									<th>Brand</th>
 									<th>Category</th>
 									<th>Quantity</th>
-									<th>Price ({{ app.user.currency.name }})</th>
-									<th>Weight (Kg)</th>
 									<th>Expiration date</th>
 									<th>Expiration time</th>
 									<th>Location</th>
@@ -43,13 +41,11 @@
 							<tbody>
 								{% for product in perime %}
 									{% if product.peremptionalert is defined and product.peremptionalert is not null %}
-										<tr {% if product.peremptionalert == '0' %} class="table-danger" {% endif %}>
+										<tr {% if product.peremptionalert == '0' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
 											<td>{{product.name}}</td>
 											<td>{{product.brand}}</td>
 											<td>{{product.category.name}}</td>
 											<td>{{product.quantity}}</td>
-											<td>{{product.price / 100}}</td>
-											<td>{{product.uweight / 1000}}</td>
 											<td>{{product.limitdate|date('d/m/Y')}}</td>
 											<td>
 												{% if product.peremptiontime < 0 %}
@@ -95,8 +91,6 @@
 									<th>Brand</th>
 									<th>Category</th>
 									<th>Quantity</th>
-									<th>Price ({{ app.user.currency.name }})</th>
-									<th>Weight (Kg)</th>
 									<th>Expiration date</th>
 									<th>Expiration time</th>
 									<th>Location</th>
@@ -106,13 +100,11 @@
 							<tbody>
 								{% for product in soon_perime %}
 									{% if product.peremptionalert is defined and product.peremptionalert is not null %}
-										<tr {% if product.peremptionalert == '1' %} class="table-warning" {% elseif product.peremptionalert == '2' %} class="table-secondary" {% endif %}>
+										<tr {% if product.peremptionalert == '1' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
 											<td>{{product.name}}</td>
 											<td>{{product.brand}}</td>
 											<td>{{product.category.name}}</td>
 											<td>{{product.quantity}}</td>
-											<td>{{product.price / 100}}</td>
-											<td>{{product.uweight / 1000}}</td>
 											<td>{{product.limitdate|date('d/m/Y')}}</td>
 											<td>{{ product.peremptiontime }}
 												days left</td>
