@@ -64,7 +64,22 @@ class UserType extends AbstractType
                         'class' => 'form-control'
                     ]
                 ]
-            );
+            )
+            ->add('PeremptionWarning', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'label' => 'Peremption time warning (days)',
+                'required' => true,
+                'constraints' => [
+                    new Length([
+                        'min' => 1,
+                        'max' => 3,
+                        'minMessage' => 'Your warning days should be at least {{ limit }} characters',
+                        'maxMessage' => 'Your warning days be no more than {{ limit }} characters'
+                    ]),
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -39,8 +39,8 @@ class MainController extends AbstractController
                 $peremption->getPeremption($this->getUser());
 
                 $product_rep = $doctrine->getRepository(Product::class);
+                $days = $this->getUser()->getPeremptionWarning();
                 $soon = new DateTime();
-                $days = "92";
                 $soon->modify('+ ' . $days . ' days');
 
                 return $this->render('main/index.html.twig', [

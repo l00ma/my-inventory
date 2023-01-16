@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Currency;
 use Symfony\Component\Form\AbstractType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -54,7 +57,25 @@ class RegistrationFormType extends AbstractType
                         'maxMessage' => 'Your password should be no more than {{ limit }} characters'
                     ]),
                 ],
-            ]);
+            ])
+            ->add(
+                'currency',
+                EntityType::class,
+                [
+                    'class' => Currency::class,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->orderBy('u.name', 'ASC');
+                    },
+                    'choice_label' => 'name',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'required' => true,
+                    'attr' => [
+                        'class' => 'form-control'
+                    ]
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

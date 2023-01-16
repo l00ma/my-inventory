@@ -53,8 +53,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $currency_id = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $resetToken;
+
+    #[ORM\Column(type: 'string', length: 3)]
+    private $peremptionWarning;
 
     #[ORM\ManyToOne(inversedBy: 'user')]
     private ?Currency $currency = null;
@@ -241,6 +244,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetToken(?string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getPeremptionWarning(): ?string
+    {
+        return $this->peremptionWarning;
+    }
+
+    public function setPeremptionWarning(?string $peremptionWarning): self
+    {
+        $this->peremptionWarning = $peremptionWarning;
 
         return $this;
     }
