@@ -73,7 +73,9 @@
 						</h4>
 					{% endif %}
 					{% if soon_perime|length %}
-						<h4>List of products whose date will expire soon:
+						<h4>List of products whose date will expire in next
+							{{ app.user.peremptionwarning }}
+							days:
 						</h4>
 						<span class="badge text-bg-primary">
 							{% if soon_perime|length == 1 %}

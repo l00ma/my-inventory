@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
 
 class UserType extends AbstractType
 {
@@ -69,14 +70,13 @@ class UserType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Peremption time warning (days)',
+                'label' => 'Expiration time warning (days)',
                 'required' => true,
                 'constraints' => [
-                    new Length([
-                        'min' => 1,
-                        'max' => 3,
-                        'minMessage' => 'Your warning days should be at least {{ limit }} characters',
-                        'maxMessage' => 'Your warning days be no more than {{ limit }} characters'
+                    new Range([
+                        'min' => 7,
+                        'max' => 365,
+                        'notInRangeMessage' => 'Value must be between {{ min }} and {{ max }} to enter',
                     ]),
                 ],
             ]);

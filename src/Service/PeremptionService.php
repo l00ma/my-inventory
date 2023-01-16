@@ -27,8 +27,10 @@ class PeremptionService
                     // Produits qui seront périmés dans les x jours a venir
                 } elseif ($diff <= (int)$warningDate) {
                     // echelonnage du fond rouge en fonction de la durée de warning
-                    $color = 115 + round((int)$diff * (140 / (int)$warningDate - 0.1));
+                    $color = 114 + round((int)$diff * (140 / (int)$warningDate - 0.05));
+                    // conversion de color decimale en hex
                     $hex = str_pad(dechex($color), 2, "0", STR_PAD_LEFT);
+                    // assignation du produit
                     $product_date->setPeremptionAlert('1');
                     $product_date->setPeremptionCss('#ff' . $hex . $hex);
                 }

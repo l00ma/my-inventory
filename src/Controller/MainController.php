@@ -39,6 +39,7 @@ class MainController extends AbstractController
                 $peremption->getPeremption($this->getUser());
 
                 $product_rep = $doctrine->getRepository(Product::class);
+                //Determination de la durée du warning
                 $days = $this->getUser()->getPeremptionWarning();
                 $soon = new DateTime();
                 $soon->modify('+ ' . $days . ' days');

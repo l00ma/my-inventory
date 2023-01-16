@@ -42,24 +42,19 @@
 						<th class="js-sort-string" style="cursor: pointer;">Brand</th>
 						<th class="js-sort-string" style="cursor: pointer;">Category</th>
 						<th class="js-sort-number" style="cursor: pointer;">Quantity</th>
-						<th class="js-sort-number" style="cursor: pointer;">Price ({{ app.user.currency.name }})</th>
-						<th class="js-sort-number" style="cursor: pointer;">Weight (Kg)</th>
 						<th class="js-sort-date" style="cursor: pointer;">Expiration date</th>
 						<th>Expiration time</th>
 						<th class="js-sort-string" style="cursor: pointer;">Location</th>
-						<th class="js-sort-string" style="cursor: pointer;">Remark</th>
 						<th>actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for product in products %}
-						<tr {% if product.peremptionalert == '0' %} class="table-danger" {% elseif product.peremptionalert == '1' %} class="table-warning" {% elseif product.peremptionalert == '2' %} class="table-secondary" {% endif %}>
+						<tr {% if product.peremptionalert == '0' or product.peremptionalert == '1' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
 							<td style="overflow: hidden; text-overflow: ellipsis">{{ product.name }}</td>
 							<td>{{ product.brand }}</td>
 							<td>{{product.category.name}}</td>
 							<td>{{ product.quantity }}</td>
-							<td>{{ product.price / 100 }}</td>
-							<td>{{ product.uWeight / 1000}}</td>
 							<td>{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</td>
 							<td>
 								{% if product.peremptiontime < 0 %}
@@ -72,7 +67,6 @@
 								{% endif %}
 							</td>
 							<td>{{ product.location }}</td>
-							<td style="overflow: hidden; text-overflow: ellipsis">{{product.remark}}</td>
 							<td>
 								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm">show</a>
 								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm">edit</a>

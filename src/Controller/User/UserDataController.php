@@ -36,6 +36,7 @@ class UserDataController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $user->setPassword($passwordEncoder->hashPassword($user, $form["password"]->getData()));
             try {
                 $userRepository->save($user, true);
@@ -43,6 +44,7 @@ class UserDataController extends AbstractController
             } catch (Exception $ex) {
                 $this->addFlash('error', 'You must set a user name, an email and a currency');
             }
+
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
