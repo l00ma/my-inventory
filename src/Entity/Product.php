@@ -99,6 +99,12 @@ class Product
         return $this;
     }
 
+    // utilisé dans EasyAdmin uniquement
+    public function getUserName(): ?string
+    {
+        return $this->user->getName();
+    }
+
     public function getCategory(): ?Category
     {
         return $this->category;

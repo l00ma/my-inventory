@@ -1,16 +1,10 @@
-<style>
-	.svg_gris {
-		filter: invert(50%) sepia(6%) saturate(630%) hue-rotate(167deg) brightness(87%) contrast(86%);
-	}
-</style>
-
 {# liste des pages où la barre de recherche doit être affichée #}
 {% set pages_with_search = ['app_product_index', 'app_main', 'app_product_search'] %}
 
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
 	<div class="container-fluid">
 
-		<a class="navbar-brand" href="{{ path ('app_home') }}"><img src="{{ asset('icon/myInventory.png') }}" alt="logo" height="36" class="d-inline-block align-text-bottom">
+		<a class="navbar-brand" href="{{ path ('app_home') }}"><img src="{{ asset('icon/myInventory.png') }}" alt="logo" height="40" class="d-inline-block align-text-bottom">
 			<span class="ps-3 d-inline-block align-middle" id="bar"></span>
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#my_navbar" aria-controls="my_navbar" aria-expanded="false" aria-label="Toggle navigation">

@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-        return $this->id;
+        return $this->name;
     }
 
     public function __construct()
@@ -192,6 +192,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->currency = $currency;
 
         return $this;
+    }
+
+    // utilisé dans EasyAdmin uniquement
+    public function getCurrencyName(): ?string
+    {
+        return $this->currency->getName();
     }
 
     public function getCurrencyId(): ?int
