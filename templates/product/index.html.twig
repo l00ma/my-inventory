@@ -49,17 +49,17 @@
 			</div>
 		</div>
 		{% if app.user.products.count %}
-			<table class="table table-hover js-sort-table">
+			<table class="table table-hover sortable">
 				<thead>
 					<tr>
-						<th class="js-sort-string" style="cursor: pointer;">Name</th>
-						<th class="js-sort-string" style="cursor: pointer;">Brand</th>
-						<th class="js-sort-string" style="cursor: pointer;">Category</th>
-						<th class="js-sort-number" style="cursor: pointer;">Quantity</th>
-						<th class="js-sort-date" style="cursor: pointer;">Expiration date</th>
-						<th>Expiration time</th>
-						<th class="js-sort-string" style="cursor: pointer;">Location</th>
-						<th>actions</th>
+						<th style="cursor: pointer;">Name</th>
+						<th style="cursor: pointer;">Brand</th>
+						<th style="cursor: pointer;">Category</th>
+						<th style="cursor: pointer;">Quantity</th>
+						<th style="cursor: pointer;">Expiration date</th>
+						<th style="cursor: pointer;">Expiration time</th>
+						<th style="cursor: pointer;">Location</th>
+						<th class="no-sort">actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -69,8 +69,8 @@
 							<td>{{ product.brand }}</td>
 							<td>{{product.category.name}}</td>
 							<td>{{ product.quantity }}</td>
-							<td>{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</td>
-							<td>
+							<td data-sort="{{ product.limitDate|date('U') }}">{{ product.limitDate|date('d/m/Y')}}</td>
+							<td data-sort="{{ product.limitDate|date('U') }}">
 								{% if product.peremptiontime < 0 %}
 									expired
 									{{ product.peremptiontime|abs }}
@@ -90,7 +90,7 @@
 					{% endfor %}
 				</tbody>
 			</table>
-			<script src="{{ asset('js/sort-table.js') }}"></script>
+			<script src="{{ asset('js/sortable.min.js') }}"></script>
 		{% endif %}
 	</div>
 {% endblock %}
