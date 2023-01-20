@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Repository\UserRepository;
 use App\Service\PeremptionService;
+use App\Service\ChartsService;
 use DateTime;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,26 +29,31 @@ class MainController extends AbstractController
     }
 
     #[Route('/main', name: 'app_main')]
-    public function index(PeremptionService $peremption, ManagerRegistry $doctrine): Response
+    public function index(PeremptionService $peremption, ChartsService $charts, ManagerRegistry $doctrine): Response
     {
         $role = $this->getUser()->getRoles();
+        $user = $this->getUser();
 
         foreach ($role as $admin) {
             if ($admin == "ROLE_ADMIN") {
                 return $this->redirectToRoute('app_admin');
             } else {
                 // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
-                $peremption->getPeremption($this->getUser());
+                $peremption->getPeremption($user);
 
                 $product_rep = $doctrine->getRepository(Product::class);
                 //Determination de la durée du warning
-                $days = $this->getUser()->getPeremptionWarning();
+                $days = $user->getPeremptionWarning();
                 $soon = new DateTime();
                 $soon->modify('+ ' . $days . ' days');
+                //charts
+                $weightByCategory = $charts->getCategoriesForCharts($user);
+                //dd($weightByCategory);
 
                 return $this->render('main/index.html.twig', [
-                    'perime' => $product_rep->findProductByDate(new DateTime(), new DateTime('1970-01-01'), $this->getUser()),
-                    'soon_perime' => $product_rep->findProductByDate($soon, new DateTime(), $this->getUser()),
+                    'perime' => $product_rep->findProductByDate(new DateTime(), new DateTime('1970-01-01'), $user),
+                    'soon_perime' => $product_rep->findProductByDate($soon, new DateTime(), $user),
+                    'chart' => $weightByCategory,
                 ]);
             }
         }

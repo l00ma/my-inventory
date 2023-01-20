@@ -14,7 +14,7 @@
 			<div class="col ms-2 text-secondary">
 				{% if app.user.products.count %}
 					{% if perime|length %}
-						<h4>List of products whose date is expired:
+						<h4>Here is the list of products whose date is expired:
 						</h4>
 						<span class="badge text-bg-primary">
 							{% if perime|length == 1 %}
@@ -73,7 +73,7 @@
 						</h4>
 					{% endif %}
 					{% if soon_perime|length %}
-						<h4>List of products whose date will expire in next
+						<h4>Here is the list of products whose date will expire in next
 							{{ app.user.peremptionwarning }}
 							days:
 						</h4>
@@ -131,7 +131,7 @@
 		{% if app.user.products.count %}
 			<div class="row mt-2">
 				<div class="col ms-2 text-secondary">
-					<h4>Categories Chart:
+					<h4>Kg per categories chart:
 					</h4>
 					<div id="chartdiv"></div>
 				</div>
@@ -181,33 +181,10 @@ series.states.create("hidden", {endAngle: -90});
 
 // Set data
 // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
-series.data.setAll([
-{
-category: "Lithuania",
-value: 501.9
-},
-{
-category: "Czechia",
-value: 301.9
-},
-{
-category: "Ireland",
-value: 201.1
-},
-{
-category: "Germany",
-value: 165.8
-}, {
-category: "Australia",
-value: 139.9
-}, {
-category: "Austria",
-value: 128.3
-}, {
-category: "UK",
-value: 99
-}
-]);
+series.data.setAll([{% for key,value in chart %}{
+category: "{{ key }}",
+value: {{ value }}
+},{% endfor %}]);
 
 series.appear(1000, 100);
 
