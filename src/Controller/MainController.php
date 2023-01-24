@@ -46,9 +46,8 @@ class MainController extends AbstractController
                 $days = $user->getPeremptionWarning();
                 $soon = new DateTime();
                 $soon->modify('+ ' . $days . ' days');
-                //charts
+                //On  recueille les datas pour le chart au moyen du service ChartsService
                 $weightByCategory = $charts->getCategoriesForCharts($user);
-                //dd($weightByCategory);
 
                 return $this->render('main/index.html.twig', [
                     'perime' => $product_rep->findProductByDate(new DateTime(), new DateTime('1970-01-01'), $user),

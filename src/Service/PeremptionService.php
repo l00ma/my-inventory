@@ -33,6 +33,8 @@ class PeremptionService
                     // assignation du produit
                     $product_date->setPeremptionAlert('1');
                     $product_date->setPeremptionCss('#ff' . $hex . $hex);
+                } else {
+                    $product_date->setPeremptionAlert('2');
                 }
             }
         }

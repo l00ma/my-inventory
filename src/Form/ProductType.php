@@ -125,7 +125,7 @@ class ProductType extends AbstractType
             ->add('delete', SubmitType::class, [
                 'label' => 'Delete',
                 'attr' => [
-                    'class' => 'form-control btn btn-danger'
+                    'class' => 'form-control btn btn-primary'
                 ],
             ])
             ->add('back', SubmitType::class, [
