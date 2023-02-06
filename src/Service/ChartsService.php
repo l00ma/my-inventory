@@ -34,8 +34,8 @@ class ChartsService
                     //Poids en Kg
                     $totalweight = $totalweight / 1000;
                     if ($totalweight != 0) {
-                        $totalweight = number_format($totalweight, ((int) $totalweight == $totalweight ? 0 : 2), '.', ',');
-                        $results[$uniqueCategory->getName()] = $totalweight;
+                        $totalweight = number_format($totalweight, ((int) $totalweight == $totalweight ? 0 : 3), '.', ',');
+                        $results[$uniqueCategory->getName()] = strval($totalweight);
                     }
                 }
             }

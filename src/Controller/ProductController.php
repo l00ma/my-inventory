@@ -33,7 +33,7 @@ class ProductController extends AbstractController
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption): Response
     {
-        //o recupère la liste des produits de l'utilisateur
+        //on recupère la liste des produits de l'utilisateur
         $products = $productRepository->findAllProductByDate($this->getUser());
         //on recupère les poids et prix totaux que représentent des produits séléctionnés
         $report = $reportService->getReport($this->getUser(), $products);
@@ -172,8 +172,8 @@ class ProductController extends AbstractController
         //on récupère la valeur de la query
         $query = $request->query->get('query');
 
-        if (strlen($query) < 4) {
-            $this->addFlash('error', 'Search must contains at least 4 characters');
+        if (strlen($query) < 3) {
+            $this->addFlash('error', 'Search must contains at least 3 characters');
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
         // on récupère les produits qui correspondent à la recherche
@@ -191,6 +191,22 @@ class ProductController extends AbstractController
             'query' => $query,
             'report' => $report,
             'products' => $products
+        ]);
+    }
+
+    #[Route('/scan', name: 'app_product_scan', methods: ['GET'])]
+    public function scan(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption): Response
+    {
+        //on recupère la liste des produits de l'utilisateur
+        $products = $productRepository->findAllProductByDate($this->getUser());
+        //on recupère les poids et prix totaux que représentent des produits séléctionnés
+        $report = $reportService->getReport($this->getUser(), $products);
+        // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
+        $peremption->getPeremption($this->getUser());
+
+        return $this->render('product/scan.html.twig', [
+            'report' => $report,
+            'products' => $products,
         ]);
     }
 }

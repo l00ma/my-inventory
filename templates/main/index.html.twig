@@ -6,12 +6,12 @@
 {% block body %}
 
 	<div class="container-fluid">
-		<div class="ms-2 text-secondary">
+		<div class="ms-2 mt-2 text-secondary">
 			<h3>Hello
 				{{ app.user.name }},</h3>
 		</div>
-		<div class="row mt-2">
-			<div class="col ms-2 text-secondary">
+		<div class="row">
+			<div class="col mt-4 ms-2 text-secondary">
 				{% if app.user.products.count %}
 					{% if perime|length %}
 						<h4>Here is the list of products whose date is expired:
@@ -73,7 +73,7 @@
 						</h4>
 					{% endif %}
 					{% if soon_perime|length %}
-						<h4>Here is the list of products whose date will expire in next
+						<h4>Here is the list of products whose date will expire in the next
 							{{ app.user.peremptionwarning }}
 							days:
 						</h4>
@@ -130,8 +130,8 @@
 		<!-- HTML for charts-->
 		{% if app.user.products.count %}
 			<div class="row mt-2">
-				<div class="col ms-2 text-secondary">
-					<h4>Weight by category
+				<div class="col ms-2 mt-4 text-secondary">
+					<h4>Weight by category:
 					</h4>
 					<div id="chartdiv" style="width: 100%; height: 450px;"></div>
 				</div>

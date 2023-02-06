@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Category;
 use App\Repository\UserRepository;
 use App\Service\PeremptionService;
 use App\Service\ChartsService;

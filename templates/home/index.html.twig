@@ -4,7 +4,60 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<h1>Hello</h1>
-	</div>
+	<section class="container my-5">
+		<div class="row gy-5 text-secondary fw-light align-items-center">
+			<div class="col-12 col-md-6 text-bg-dark px-3" style="border-radius: 10px; text-align: center;">
+				<p style="font-size:2vw;">Are you prepared for the unexpected?</p>
+				<p style="font-size:2vw;">Tired of throwing away expired food and wasting money?</p>
+				<p style="font-size:2vw;">Looking for a good food stock tracking tool?</p>
+				<p style="font-size:2vw;">Good news, you've found it!</p>
+				<img src="{{ asset('icon/myInventory.png') }}" style="max-width: 80%; height: auto;" alt="my inventory logo">
+			</div>
+			<div class="col-12 col-md-6">
+				<img src="{{ asset ('/images/canned1.jpg') }}" alt="canned_image" width="75%" style="margin: auto; display: block;"></div>
+		</div>
+	</section>
+	<section class="container my-5">
+		<div class="row gy-5 text-secondary fw-light align-items-center">
+			<div class="col-12 col-md-6"><img src="{{ asset ('/images/canned2.jpg') }}" alt="canned_image" width="75%" style="margin: auto; display: block;"></div>
+			<div class="col-12 col-md-6 text-bg-dark px-3" style="border-radius: 10px;text-align: center">
+				<p style="font-size:2vw;">
+					myIn<span style="color: crimson;">v</span>entory allows you to easily keep track</p>
+				<p style="font-size:2vw;">of your non-perishable food reserve and</p>
+				<p style="font-size:2vw;">make sure that you have enough supplies</p>
+				<p style="font-size:2vw;">for any emergency and alerts you when a</p>
+				<p style="font-size:2vw;">product is approaching its expiration date.</p>
+				<p style="font-size:2vw;">Not only will this save you money, but it</p>
+				<p style="font-size:2vw;">also helps reduce food waste and is</p>
+				<p style="font-size:2vw;">better for the environment.</p>
+			</div>
+		</div>
+	</section>
+	<section class="container my-5">
+		<div class="row gy-5 text-secondary fw-light align-items-center">
+			<div class="col-12 col-md-6 text-bg-dark px-3" style="border-radius: 10px;text-align: center">
+				<p style="font-size:2vw;">Keeping track of your food stock also</p>
+				<p style="font-size:2vw;">ensures that you eat healthy by preventing</p>
+				<p style="font-size:2vw;">you from reaching for that old bag of chips</p>
+				<p style="font-size:2vw;">hiding in the back of your pantry.</p>
+				<p style="font-size:2vw;">Register and let's make sure that you'll be</p>
+				<p style="font-size:2vw;">reminded when it's time to rotate your stock,</p>
+				<p style="font-size:2vw;">ensuring that your emergency food supply</p>
+				<p style="font-size:2vw;">is always fresh and ready to go.</p>
+			</div>
+			<div class="col-12 col-md-6"><img src="{{ asset ('/images/canned3.jpg') }}" alt="canned_image" width="75%" style="margin: auto; display: block;"></div>
+		</div>
+	</section>
+	<section class="container my-5">
+		<div class="row gy-5 text-secondary fw-light align-items-center">
+			<div class="col-12 col-md-6"><img src="{{ asset ('/images/canned4.jpg') }}" alt="canned_image" width="75%" style="margin: auto; display: block;"></div>
+			<div class="col-12 col-md-6 text-bg-dark px-3" style="border-radius: 10px;text-align: center;background-image: url({{ asset('icon/myInventory_logo.png') }});background-repeat: no-repeat;background-size: 200px;background-position: center; align-items: center;">
+				<p style="font-size:2vw;">Don't let your food become a science</p>
+				<p style="font-size:2vw;">experiment, don't be caught off guard,</p>
+				<p style="font-size:2vw;">join us now and take control of your</p>
+				<p style="font-size:2vw;">food supply. Sign up now and</p>
+				<p style="font-size:2vw;">kiss those moldy leftovers goodbye!</p>
+			</div>
+		</div>
+	</section>
 {% endblock %}
