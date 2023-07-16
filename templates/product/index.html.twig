@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+	{% block javascripts %}
+		{{ parent() }}
+		{{ encore_entry_script_tags('sortable') }}
+	{% endblock %}
 
 {% block title %}My products
 {% endblock %}
@@ -90,7 +94,6 @@
 					{% endfor %}
 				</tbody>
 			</table>
-			<script src="{{ asset('js/sortable.min.js') }}"></script>
 		{% endif %}
 	</div>
 {% endblock %}

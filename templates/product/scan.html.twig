@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+	{% block javascripts %}
+		{{ parent() }}
+		{{ encore_entry_script_tags('scan') }}
+	{% endblock %}
 
 {% block title %}scan product
 {% endblock %}
@@ -14,30 +18,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="{{ asset('js/html5-qrcode.min.js') }}"></script>
 	<script>
-		function onScanSuccess(decodedText, decodedResult) {
-console.log (`Code scanned = ${decodedText}`, decodedResult);
-httpGetAsync(thisUrl + decodedText);
-}
-function httpGetAsync(theUrl, callback) {
-var xmlHttp = new XMLHttpRequest();
-xmlHttp.onreadystatechange = function () {
-if (xmlHttp.readyState == 4 && xmlHttp.status == 200) 
-callback(xmlHttp.responseText)
-
-
-
-}
-xmlHttp.open("GET", theUrl, true); // true for asynchronous
-xmlHttp.send(null);
-}
-var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
-fps: 10,
-qrbox: 400,
-aspectRatio: 2
-});
-html5QrcodeScanner.render(onScanSuccess);
-var thisUrl = '{{ absolute_url(path('app_product_scan')) }}' + '/new?q=';
+let thisUrl = '{{ absolute_url(path('app_product_scan')) }}' + '/new?q=';
 	</script>
 {% endblock %}
