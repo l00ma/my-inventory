@@ -17,25 +17,25 @@ class ChartsService
     {
         $results = array();
         // Pour chaque catégorie, on calcul le poids total des produits du user
-        $allCategories = $this->categories->findAll();
-        if ($allCategories) {
-            foreach ($allCategories as $uniqueCategory) {
-                $allProductsByCategory = $uniqueCategory->getProducts();
-                if ($allProductsByCategory) {
-                    $totalweight = 0;
-                    foreach ($allProductsByCategory as $uniqueProductByCategory) {
-                        if ($uniqueProductByCategory->getUser() == $user) {
-                            $unt_weight = (int) $uniqueProductByCategory->getUWeight();
-                            $quty = (int) $uniqueProductByCategory->getQuantity();
+        $categories = $this->categories->findAll();
+        if ($categories) {
+            foreach ($categories as $category) {
+                $productsByCategory = $category->getProducts();
+                if ($productsByCategory) {
+                    $totalWeight = 0;
+                    foreach ($productsByCategory as $productByCategory) {
+                        if ($productByCategory->getUser() == $user) {
+                            $untWeight = (int) $productByCategory->getUWeight();
+                            $quty = (int) $productByCategory->getQuantity();
                             //le poids sera en grammes
-                            $totalweight = $totalweight + ($unt_weight * $quty);
+                            $totalWeight = $totalWeight + ($untWeight * $quty);
                         }
                     }
                     //Poids en Kg
-                    $totalweight = $totalweight / 1000;
-                    if ($totalweight != 0) {
-                        $totalweight = number_format($totalweight, ((int) $totalweight == $totalweight ? 0 : 3), '.', ',');
-                        $results[$uniqueCategory->getName()] = strval($totalweight);
+                    $totalWeight = $totalWeight / 1000;
+                    if ($totalWeight != 0) {
+                        $totalWeight = number_format($totalWeight, ((int) $totalWeight == $totalWeight ? 0 : 3), '.', ',');
+                        $results[$category->getName()] = strval($totalWeight);
                     }
                 }
             }

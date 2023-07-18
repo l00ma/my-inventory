@@ -3,15 +3,12 @@
 {% endblock %}
 
 {% block body%}
-	{% for message in app.flashes('error') %}
-		<div class="alert alert-danger">
-			{{ message }}
-		</div>
-	{% endfor %}
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">
-			{{ message }}
-		</div>
+	{% for category, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ category }}" id="alertMsg">
+				{{ message }}
+			</div>
+		{% endfor %}
 	{% endfor %}
 	<div class="container">
 		<div class="ms-2 text-secondary">
