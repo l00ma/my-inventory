@@ -4,22 +4,19 @@
 {% endblock %}
 
 {% block body %}
-	{% for message in app.flashes('error') %}
-		<div class="alert alert-danger">
-			{{ message }}
-		</div>
-	{% endfor %}
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">
-			{{ message }}
-		</div>
+	{% for category, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ category }}" id="alertMsg">
+				{{ message }}
+			</div>
+		{% endfor %}
 	{% endfor %}
 	<section class="container my-3">
 		<div class="row">
 			<div class="col">
 				<form method="post">
 					{% if error %}
-						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+						<div class="alert alert-danger" id="alertMsg">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 					{% endif %}
 
 					{% if app.user %}

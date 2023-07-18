@@ -25,6 +25,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@amcharts/amcharts4": "^4.10.36",
         "html5-qrcode": "^2.3.8"
     }
 }

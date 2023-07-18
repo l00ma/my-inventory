@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
-	{% block javascripts %}
-		{{ parent() }}
-		{{ encore_entry_script_tags('scan') }}
-	{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('scan') }}
+{% endblock %}
 
 {% block title %}scan product
 {% endblock %}
@@ -18,7 +18,4 @@
 			</div>
 		</div>
 	</div>
-	<script>
-let thisUrl = '{{ absolute_url(path('app_product_scan')) }}' + '/new?q=';
-	</script>
 {% endblock %}
