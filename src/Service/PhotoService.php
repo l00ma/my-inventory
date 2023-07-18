@@ -17,34 +17,34 @@ class PhotoService
         define('IMAGE_WIDTH', 400);
     }
 
-    public function addPhoto(Product $product, $photo): void
+    public function addPhoto(Product $product, $photoFile): void
     {
         //on recupere l'extention de l'image en minuscule
-        $extention = strtolower($photo->guessExtension());
-        $fichier = md5(uniqid()) . '.' . $extention;
+        $extention = strtolower($photoFile->guessExtension());
+        $fileName = md5(uniqid()) . '.' . $extention;
 
-        $old_image = $product->getPhoto();
+        $oldPhoto = $product->getPhoto();
 
-        if ($old_image) {
-            $file_to_delete = $this->params->get('images_directory') . '/' . $old_image->getName();
-            unlink($file_to_delete);
-            $product->getPhoto()->setName($fichier);
+        if ($oldPhoto) {
+            $oldPhotoFile = $this->params->get('images_directory') . '/' . $oldPhoto->getName();
+            unlink($oldPhotoFile);
+            $product->getPhoto()->setName($fileName);
         } else {
-            $image_product = new Photo();
-            $image_product->setName($fichier);
-            $product->setPhoto($image_product);
+            $photo = new Photo();
+            $photo->setName($fileName);
+            $product->setPhoto($photo);
         }
 
         if ($extention == 'jpg' || $extention == 'jpeg') {
-            $photo = imagecreatefromjpeg($photo);
-            $photo = imagescale($photo, IMAGE_WIDTH, -1);
-            imagejpeg($photo, $this->params->get('images_directory') . '/' . $fichier);
+            $photoFile = imagecreatefromjpeg($photoFile);
+            $photoFile = imagescale($photoFile, IMAGE_WIDTH, -1);
+            imagejpeg($photoFile, $this->params->get('images_directory') . '/' . $fileName);
         }
 
         if ($extention == 'png') {
-            $photo = imagecreatefrompng($photo);
-            $photo = imagescale($photo, IMAGE_WIDTH, -1);
-            imagepng($photo, $this->params->get('images_directory') . '/' . $fichier);
+            $photoFile = imagecreatefrompng($photoFile);
+            $photoFile = imagescale($photoFile, IMAGE_WIDTH, -1);
+            imagepng($photoFile, $this->params->get('images_directory') . '/' . $fileName);
         }
     }
 }

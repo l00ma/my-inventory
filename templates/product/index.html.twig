@@ -41,10 +41,10 @@
 							<span class="badge text-bg-primary">{{ report[1] }}
 								{{ app.user.currency.name }}</span>
 						{% endif %}
-						<a href="{{ path('app_product_new') }}" class="btn btn-primary" style="float: right">Add a product</a>
+						<a href="{{ path('app_product_new') }}" class="btn btn-primary" style="float: right" title="Add a product"><i class="bi bi-bag-plus-fill"></i></a>
 					{% else %}
 						<p>Start your inventory by adding your first product.</p>
-						<a href="{{ path('app_product_new') }}" class="btn btn-primary" style="float: left">Add a product</a>
+						<a href="{{ path('app_product_new') }}" class="btn btn-primary" style="float: left" title="Add a product"><i class="bi bi-bag-plus-fill"></i></a>
 					{% endif %}
 				</div>
 			</div>
@@ -83,9 +83,9 @@
 							</td>
 							<td>{{ product.location }}</td>
 							<td>
-								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm">show</a>
-								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm">edit</a>
-								<a href="{{ path('app_product_new', {'id': product.id}) }}" class="btn btn-primary btn-sm">clone</a>
+								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm" title="See this product"><i class="bi bi-eye"></i></a>
+								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm" title="Edit this product"><i class="bi bi-pencil"></i></a>
+								<a href="{{ path('app_product_new', {'id': product.id}) }}" class="btn btn-primary btn-sm" title="Clone this product"><i class="bi bi-magic"></i></a>
 							</td>
 						</tr>
 					{% endfor %}

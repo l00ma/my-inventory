@@ -21,6 +21,10 @@ Encore
         from: './assets/images',
         to: 'images/[path][name].[ext]',
     })
+    .copyFiles({
+        from: './assets/upload/image',
+        to: 'upload/image/[path][name].[ext]',
+    })
     /*
      * ENTRY CONFIG
      *

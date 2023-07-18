@@ -15,10 +15,6 @@ class ScanController extends AbstractController
         #[Route('/scan', name: 'app_scan')]
         public function scan(Request $request): Response
         {
-            if ($request->getMethod() == 'POST') {
-                $codebar = $request->getContent();
-                dd($codebar);
-            }    
             return $this->render('scan/index.html.twig');
         }
 

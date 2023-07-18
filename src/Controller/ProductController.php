@@ -5,11 +5,9 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
-use App\Repository\UserRepository;
 use App\Service\PeremptionService;
 use App\Service\PhotoService;
 use App\Service\ReportService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,17 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
 
-    /**
-     * @var UserRepository
-     */
-    private $repository;
-
-    public function __construct(UserRepository $repository, EntityManagerInterface $em)
-    {
-        $this->repository = $repository;
-        $this->em = $em;
-    }
-
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository, ReportService $reportService, PeremptionService $peremption): Response
     {
@@ -37,7 +24,7 @@ class ProductController extends AbstractController
         //on recupère la liste des produits de l'utilisateur
         $products = $productRepository->findAllProductByDate($user);
         //on recupère les poids et prix totaux que représentent des produits séléctionnés
-        $report = $reportService->getReport($user, $products);
+        $report = $reportService->getReport($products);
         // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
         $peremption->getPeremption($user);
 
@@ -156,11 +143,11 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('The product does not exist');
         }
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
-            $old_image = $product->getPhoto();
-            if ($old_image) {
-                $file_to_delete = $this->getParameter('images_directory') . '/' . $old_image->getName();
-                if ($file_to_delete) {
-                    unlink($file_to_delete);
+            $image = $product->getPhoto();
+            if ($image) {
+                $fileToDelete = $this->getParameter('images_directory') . '/' . $image->getName();
+                if ($fileToDelete) {
+                    unlink($fileToDelete);
                 }
             }
             $productRepository->remove($product, true);
@@ -186,10 +173,9 @@ class ProductController extends AbstractController
             $query
         );
         //on recupère les poids et prix totaux que représentent des produits séléctionnés
-        $report = $reportService->getReport($this->getUser(), $products);
+        $report = $reportService->getReport($products);
         // on recupère les dates de peremption en assignant des valeurs en fonction de la date de peremption
         $peremption->getPeremption($this->getUser());
-
 
         return $this->render('product/searchresult.html.twig', [
             'query' => $query,
@@ -197,6 +183,4 @@ class ProductController extends AbstractController
             'products' => $products
         ]);
     }
-
-    
 }
