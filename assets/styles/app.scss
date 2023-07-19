@@ -1,20 +1,92 @@
-$primary: #581EA3; // purple
+$primary: #5c9743;
+$danger: #fc6969;
+$green: #005A64;
+$white: white;
+$crimson: crimson;
 
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons";
 
+.text-btn {
+    color: $white  !important;
+}
 
-table.table-hover {
-    font-size: 80%;
+.text-bg-primary {
+    color: $white  !important;
+}
+
+.bg-div-home {
+    background-color: $green;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.div-home-logo {
+    max-width: 80%;
+    height: auto;
+}
+
+.v-style {
+    color: $crimson;
+}
+
+.v-image {
+    background-image: url('/assets/icon/myInventory_logo.png');
+    background-repeat: no-repeat;
+    background-size: 200px;
+    background-position: center;
+    align-items: center;
+}
+
+.div-home-image {
+    width: 75%;
+    margin: auto;
+    display: block;
 }
 
 nav {
-    background-color: #212529;
+    background-color: $green;
 }
 
-td {
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: center;
+    font-size: 14px;
+    color: #212529;
+}
+
+.products-table th {
+    padding: 8px;
+    font-weight: 600;
+}
+
+.products-table tr {
+    border: 1px solid $white;
+}
+
+.products-table td {
+    padding: 4px;
     width: 1%;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis
+    text-overflow: clip
+}
+
+#chartdiv {
+    width: 100%;
+    height: 450px;
+}
+
+.product-sortable{
+    cursor: pointer;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
 }

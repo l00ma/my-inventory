@@ -69,9 +69,12 @@ class ProductController extends AbstractController
             $user = $this->getUser();
             $product->setUser($user);
             $productRepository->save($product, true);
+            $id = $product->getId();
             $this->addFlash('success', 'Product successfully created');
 
-            return $this->redirectToRoute('app_product_index');
+            return $this->redirectToRoute('app_product_edit', [
+                'id' => $id
+            ]);
         }
 
         return $this->renderForm('product/new.html.twig', [
@@ -106,7 +109,9 @@ class ProductController extends AbstractController
                 $productRepository->save($product, true);
                 $this->addFlash('success', 'Product successfully saved');
 
-                return $this->redirectToRoute('app_product_index');
+                return $this->redirectToRoute('app_product_edit', [
+                    'id' => $id
+                ]);
             }
             //action si click sur DELETE
             if ($form->getClickedButton() && 'delete' === $form->getClickedButton()->getName()) {
