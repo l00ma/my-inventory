@@ -37,6 +37,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('sortable', './assets/sortable.js')
     .addEntry('scan', './assets/scan.js')
+    .addEntry('imageSave', './assets/imageSave.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
