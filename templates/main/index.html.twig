@@ -5,82 +5,82 @@
 
 {% block body %}
 
-	<div class="container-fluid">
-		<div class="ms-2 mt-2 text-secondary">
-			<h3>Hello
-				{{ app.user.name }},</h3>
-		</div>
-		<div class="row">
-			<div class="col mt-4 ms-2 text-secondary">
-				{% if app.user.products.count %}
-					{% if perime|length %}
-						<h4>List of products with expired consumption date:
-						</h4>
-						<span class="badge text-bg-primary">
-							{% if perime|length == 1 %}
-								{{ perime|length }}
-								item
-							{% elseif perime|length > 1 %}
-								{{ perime|length }}
-								items
-							{% endif %}
-						</span>
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th>Name</th>
-									<th>Brand</th>
-									<th>Category</th>
-									<th>Quantity</th>
-									<th>Expiration date</th>
-									<th>Expiration time</th>
-									<th>Location</th>
-									<th>actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for product in perime %}
-									{% if product.peremptionalert is defined and product.peremptionalert is not null %}
-										<tr {% if product.peremptionalert == '0' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
-											<td>{{product.name}}</td>
-											<td>{{product.brand}}</td>
-											<td>{{product.category.name}}</td>
-											<td>{{product.quantity}}</td>
-											<td>{{product.limitdate|date('d/m/Y')}}</td>
-											<td>
-												{% if product.peremptiontime < 0 %}
-													expired
-													{{ product.peremptiontime|abs }}
-													days ago
-												{% else %}
-													{{ product.peremptiontime }}
-													days left
-												{% endif %}
-											</td>
-											<td>{{product.location}}</td>
-											<td>
-												<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="See this product">
-													<i class="bi bi-eye"></i>
-												</a>
-												<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Edit this product">
-													<i class="bi bi-pencil"></i>
-												</a>
-											</td>
-										</tr>
+	<div class="ms-2 mt-2 text-secondary">
+		<h3>Hello
+			{{ app.user.name }},</h3>
+	</div>
+	<div class="row">
+		<div class="col mt-4 text-secondary">
+			{% if app.user.products.count %}
+				{% if perime|length %}
+					<h4 class="ms-2">List of products with expired consumption date:
+					</h4>
+					<span class="ms-2 badge text-bg-primary">
+						{% if perime|length == 1 %}
+							{{ perime|length }}
+							item
+						{% elseif perime|length > 1 %}
+							{{ perime|length }}
+							items
+						{% endif %}
+					</span>
+					<table class="products-table mb-2">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th class="d-none d-md-table-cell">Brand</th>
+								<th class="d-none d-lg-table-cell">Category</th>
+								<th class="d-none d-md-table-cell">Quantity</th>
+								<th class="d-none d-lg-table-cell">Expiration date</th>
+								<th>Expiration time</th>
+								<th class="d-none d-lg-table-cell">Location</th>
+								<th>actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for product in perime %}
+								{% if product.peremptionalert is defined and product.peremptionalert is not null %}
+									<tr {% if product.peremptionalert == '0' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
+										<td>{{product.name}}</td>
+										<td class="d-none d-md-table-cell">{{product.brand}}</td>
+										<td class="d-none d-lg-table-cell">{{product.category.name}}</td>
+										<td class="d-none d-md-table-cell">{{product.quantity}}</td>
+										<td class="d-none d-lg-table-cell">{{product.limitdate|date('d/m/Y')}}</td>
+										<td>
+											{% if product.peremptiontime < 0 %}
+												{{ product.peremptiontime|abs }}
+												days ago
+											{% else %}
+												{{ product.peremptiontime }}
+												days left
+											{% endif %}
+										</td>
+										<td class="d-none d-lg-table-cell">{{product.location}}</td>
+										<td>
+											<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="See this product">
+												<i class="bi bi-eye"></i>
+											</a>
+											<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Edit this product">
+												<i class="bi bi-pencil"></i>
+											</a>
+										</td>
+									</tr>
 
-									{% endif %}
-								{% endfor %}
-							</tbody>
-						</table>
-					{% else %}
-						<h4>Congratulation: You have no expired product.
-						</h4>
-					{% endif %}
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<h4 class="ms-2">Congratulation: You have no expired product.
+					</h4>
+				{% endif %}
+				<div class="mt-4">
 					{% if soon_perime|length %}
-						<h4>List of products whose expiration date is within the next {{ app.user.peremptionwarning }}
+						<h4 class="ms-2">List of products whose expiration date is within the next
+							{{ app.user.peremptionwarning }}
 							days:
 						</h4>
-						<span class="badge text-bg-primary">
+						<span class="badge ms-2 text-bg-primary">
 							{% if soon_perime|length == 1 %}
 								{{ soon_perime|length }}
 								item
@@ -89,16 +89,16 @@
 								items
 							{% endif %}
 						</span>
-						<table class="table table-hover">
+						<table class="products-table">
 							<thead>
 								<tr>
 									<th>Name</th>
-									<th>Brand</th>
-									<th>Category</th>
-									<th>Quantity</th>
-									<th>Expiration date</th>
+									<th class="d-none d-md-table-cell">Brand</th>
+									<th class="d-none d-lg-table-cell">Category</th>
+									<th class="d-none d-md-table-cell">Quantity</th>
+									<th class="d-none d-lg-table-cell">Expiration date</th>
 									<th>Expiration time</th>
-									<th>Location</th>
+									<th class="d-none d-lg-table-cell">Location</th>
 									<th>actions</th>
 								</tr>
 							</thead>
@@ -107,13 +107,13 @@
 									{% if product.peremptionalert is defined and product.peremptionalert is not null %}
 										<tr {% if product.peremptionalert == '1' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
 											<td>{{product.name}}</td>
-											<td>{{product.brand}}</td>
-											<td>{{product.category.name}}</td>
-											<td>{{product.quantity}}</td>
-											<td>{{product.limitdate|date('d/m/Y')}}</td>
+											<td class="d-none d-md-table-cell">{{product.brand}}</td>
+											<td class="d-none d-lg-table-cell">{{product.category.name}}</td>
+											<td class="d-none d-md-table-cell">{{product.quantity}}</td>
+											<td class="d-none d-lg-table-cell">{{product.limitdate|date('d/m/Y')}}</td>
 											<td>{{ product.peremptiontime }}
 												days left</td>
-											<td>{{product.location}}</td>
+											<td class="d-none d-lg-table-cell">{{product.location}}</td>
 											<td>
 												<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="See this product">
 													<i class="bi bi-eye"></i>
@@ -130,21 +130,26 @@
 						</table>
 					{% endif %}
 				{% else %}
-					<p>Click on "Products list" to start adding products to your inventory.</p>
+					<div class="ms-2">
+						<p>Start your inventory by adding your first product.</p>
+						<a href="{{ path('app_product_new') }}" class="btn btn-primary btn-lg text-btn" style="float: left" title="Add a product">
+							<i class="bi bi-bag-plus-fill"></i>
+						</a>
+					</div>
 				{% endif %}
 			</div>
 		</div>
-		<!-- HTML for charts-->
-		{% if app.user.products.count %}
-			<div class="row mt-2">
-				<div class="col ms-2 mt-4 text-secondary">
-					<h4>Your products: Total weight per category:
-					</h4>
-					<div id="chartdiv" style="width: 100%; height: 450px;"></div>
-				</div>
-			</div>
-		{% endif %}
 	</div>
+	<!-- HTML for charts-->
+	{% if app.user.products.count %}
+		<div class="row d-none d-md-block">
+			<div class="col ms-2 mt-4 text-secondary">
+				<h4>Your products: Total weight per category:
+				</h4>
+				<div id="chartdiv"></div>
+			</div>
+		</div>
+	{% endif %}
 
 	<!-- Resources -->
 	<script src="//cdn.amcharts.com/lib/4/core.js"></script>

@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
-	{% block javascripts %}
-		{{ parent() }}
-		{{ encore_entry_script_tags('sortable') }}
-	{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('sortable') }}
+{% endblock %}
 
 {% block title %}My products
 {% endblock %}
@@ -15,82 +15,92 @@
 			</div>
 		{% endfor %}
 	{% endfor %}
-	<div class="container-fluid">
-		<div class="ms-2 text-secondary">
-			<div class="row mt-2">
-				<div class="col ms-2 text-secondary">
-					{% if app.user.products.count %}
-						<h3>Full list of products:</h3>
-						{# badge cumulant le nbre de produits detenus #}
-						<span class="badge text-bg-primary">
-							{% if app.user.products.count == 1 %}
-								{{ app.user.products.count }}
-								item
-							{% elseif app.user.products.count > 1 %}
-								{{ app.user.products.count }}
-								items
-							{% endif %}
-						</span>
-						{% if report[0] != '0' %}
-							{# badge cumulant le poids total des produits detenus #}
-							<span class="badge text-bg-primary">{{ report[0] }}
-								Kg</span>
+	<div class="ms-2 text-secondary">
+		<div class="row mt-2">
+			<div class="col ms-2 text-secondary">
+				{% if app.user.products.count %}
+					<h3>Full list of products:</h3>
+					{# badge cumulant le nbre de produits detenus #}
+					<span class="badge text-bg-primary">
+						{% if app.user.products.count == 1 %}
+							{{ app.user.products.count }}
+							item
+						{% elseif app.user.products.count > 1 %}
+							{{ app.user.products.count }}
+							items
 						{% endif %}
-						{% if report[1] != '0' %}
-							{# badge cumulant le montant total des produits detenus #}
-							<span class="badge text-bg-primary">{{ report[1] }}
-								{{ app.user.currency.name }}</span>
-						{% endif %}
-						<a href="{{ path('app_product_new') }}" class="btn btn-primary btn-lg text-btn" style="float: right" title="Add a product"><i class="bi bi-bag-plus-fill"></i></a>
-					{% else %}
-						<p>Start your inventory by adding your first product.</p>
-						<a href="{{ path('app_product_new') }}" class="btn btn-primary btn-lg text-btn" style="float: left" title="Add a product"><i class="bi bi-bag-plus-fill"></i></a>
+					</span>
+					{% if report[0] != '0' %}
+						{# badge cumulant le poids total des produits detenus #}
+						<span class="badge text-bg-primary">{{ report[0] }}
+							Kg</span>
 					{% endif %}
-				</div>
+					{% if report[1] != '0' %}
+						{# badge cumulant le montant total des produits detenus #}
+						<span class="badge text-bg-primary">{{ report[1] }}
+							{{ app.user.currency.name }}</span>
+					{% endif %}
+					<a href="{{ path('app_product_new') }}" class="btn btn-primary btn-lg text-btn me-2" style="float: right" title="Add a product">
+						<i class="bi bi-bag-plus-fill"></i>
+					</a>
+				{% else %}
+					<div class="ms-2">
+						<p>You have no product in your inventory.</p>
+						<p>Start by adding your first product.</p>
+						<a href="{{ path('app_product_new') }}" class="btn btn-primary btn-lg text-btn" style="float: left" title="Add a product">
+							<i class="bi bi-bag-plus-fill"></i>
+						</a>
+					</div>
+				{% endif %}
 			</div>
 		</div>
-		{% if app.user.products.count %}
-			<table class="table table-hover sortable">
-				<thead>
-					<tr>
-						<th style="cursor: pointer;">Name</th>
-						<th style="cursor: pointer;">Brand</th>
-						<th style="cursor: pointer;">Category</th>
-						<th style="cursor: pointer;">Quantity</th>
-						<th style="cursor: pointer;">Expiration date</th>
-						<th style="cursor: pointer;">Expiration time</th>
-						<th style="cursor: pointer;">Location</th>
-						<th class="no-sort">actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for product in products %}
-						<tr {% if product.peremptionalert == '0' or product.peremptionalert == '1' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
-							<td>{{ product.name }}</td>
-							<td>{{ product.brand }}</td>
-							<td>{{product.category.name}}</td>
-							<td>{{ product.quantity }}</td>
-							<td data-sort="{{ product.limitDate|date('U') }}">{{ product.limitDate|date('d/m/Y')}}</td>
-							<td data-sort="{{ product.limitDate|date('U') }}">
-								{% if product.peremptiontime < 0 %}
-									expired
-									{{ product.peremptiontime|abs }}
-									days ago
-								{% else %}
-									{{ product.peremptiontime }}
-									days left
-								{% endif %}
-							</td>
-							<td>{{ product.location }}</td>
-							<td>
-								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="See this product"><i class="bi bi-eye"></i></a>
-								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Edit this product"><i class="bi bi-pencil"></i></a>
-								<a href="{{ path('app_product_new', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Clone this product"><i class="bi bi-magic"></i></a>
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		{% endif %}
 	</div>
+	{% if app.user.products.count %}
+		<table class="products-table sortable">
+			<thead>
+				<tr>
+					<th style="cursor: pointer;">Name</th>
+					<th class="d-none d-md-table-cell" style="cursor: pointer;">Brand</th>
+					<th class="d-none d-lg-table-cell" style="cursor: pointer;">Category</th>
+					<th class="d-none d-md-table-cell" style="cursor: pointer;">Quantity</th>
+					<th class="d-none d-lg-table-cell" style="cursor: pointer;">Expiration date</th>
+					<th style="cursor: pointer;">Expiration time</th>
+					<th class="d-none d-lg-table-cell" style="cursor: pointer;">Location</th>
+					<th class="no-sort">actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in products %}
+					<tr {% if product.peremptionalert == '0' or product.peremptionalert == '1' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
+						<td>{{ product.name }}</td>
+						<td class="d-none d-md-table-cell">{{ product.brand }}</td>
+						<td class="d-none d-lg-table-cell">{{product.category.name}}</td>
+						<td class="d-none d-md-table-cell">{{ product.quantity }}</td>
+						<td class="d-none d-lg-table-cell" data-sort="{{ product.limitDate|date('U') }}">{{ product.limitDate|date('d/m/Y')}}</td>
+						<td data-sort="{{ product.limitDate|date('U') }}">
+							{% if product.peremptiontime < 0 %}
+								{{ product.peremptiontime|abs }}
+								days ago
+							{% else %}
+								{{ product.peremptiontime }}
+								days left
+							{% endif %}
+						</td>
+						<td class="d-none d-lg-table-cell">{{ product.location }}</td>
+						<td>
+							<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="See this product">
+								<i class="bi bi-eye"></i>
+							</a>
+							<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Edit this product">
+								<i class="bi bi-pencil"></i>
+							</a>
+							<a href="{{ path('app_product_new', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Clone this product">
+								<i class="bi bi-magic"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
 {% endblock %}
