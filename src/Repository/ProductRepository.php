@@ -92,9 +92,11 @@ class ProductRepository extends ServiceEntityRepository
             )
             ->andWhere('p.user = :user')
             ->setParameter('query', '%' . $query . '%')
-            ->setParameter('user', $user);
+            ->setParameter('user', $user)
+            ->orderBy('p.limit_date', 'ASC');
 
         return $qb
+                    
             ->getQuery()
             ->getResult();
     }

@@ -1,7 +1,8 @@
-$primary: #6aa84f;
+$primary: #5c9743;
 $danger: #ea9999;
 $green: #005A64;
 $white: white;
+$crimson: crimson;
 
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons";
@@ -26,7 +27,7 @@ $white: white;
 }
 
 .v-style {
-    color: crimson;
+    color: $crimson;
 }
 
 .v-image {
@@ -76,4 +77,16 @@ nav {
 #chartdiv {
     width: 100%;
     height: 450px;
+}
+
+.product-sortable{
+    cursor: pointer;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
 }
