@@ -4,13 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{% for category, messages in app.flashes %}
-		{% for message in messages %}
-			<div class="alert alert-{{ category }}" id="alertMsg">
-				{{ message }}
-			</div>
-		{% endfor %}
-	{% endfor %}
 	<section class="container my-3">
 		<div class="row">
 			<div class="col">

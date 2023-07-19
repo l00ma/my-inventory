@@ -16,14 +16,17 @@ Encore
     .copyFiles({
         from: './assets/icon',
         to: 'icon/[path][name].[ext]',
+        pattern: /\.(png|jpg|jpeg)$/
     })
     .copyFiles({
         from: './assets/images',
         to: 'images/[path][name].[ext]',
+        pattern: /\.(jpg|jpeg)$/
     })
-    .copyFiles({
+        .copyFiles({
         from: './assets/upload/image',
         to: 'upload/image/[path][name].[ext]',
+        pattern: /\.(png|jpg|jpeg)$/
     })
     /*
      * ENTRY CONFIG

@@ -8,13 +8,7 @@
 {% endblock %}
 
 {% block body %}
-	{% for category, messages in app.flashes %}
-		{% for message in messages %}
-			<div class="alert alert-{{ category }}" id="alertMsg">
-				{{ message }}
-			</div>
-		{% endfor %}
-	{% endfor %}
+	
 	<div class="ms-2 text-secondary">
 		<div class="row mt-2">
 			<div class="col ms-2 text-secondary">

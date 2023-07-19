@@ -7,22 +7,18 @@
 
 	<section class="container my-3">
 		<div class="row">
-			<div class="col">
-				<div class="d-flex flex-column min-h-100 justify-content-center align-items-center">
-					<h3 class="h3 mb-3 font-weight-normal text-secondary">Register</h3>
-					<div class="col-md-3 text-secondary">
-						{{ form_start(registrationForm) }}
-						{{ form_row(registrationForm.name) }}
-						{{ form_row(registrationForm.email) }}
-						{{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-						{{ form_row(registrationForm.currency) }}
-						<p>{{ form_row(registrationForm.agreeTerms) }}</p>
+			<div class="d-flex flex-column min-h-100 justify-content-center align-items-center">
+				<h3 class="h3 mb-3 font-weight-normal text-secondary">Register</h3>
+				<div class="col-md-5 col-lg-4 text-secondary">
+					{{ form_start(registrationForm) }}
+					{{ form_row(registrationForm.name) }}
+					{{ form_row(registrationForm.email) }}
+					{{ form_row(registrationForm.plainPassword, {label: 'Password'}) }}
+					{{ form_row(registrationForm.currency) }}
+					<p>{{ form_row(registrationForm.agreeTerms) }}</p>
 
-						<button type="submit" class="mt-2 btn btn-primary text-btn">Register</button>
-						{{ form_end(registrationForm) }}
-					</div>
+					<button type="submit" class="mt-2 btn btn-primary text-btn">Register</button>
+					{{ form_end(registrationForm) }}
 				</div>
 			</div>
 		</div>
