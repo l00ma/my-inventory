@@ -14,7 +14,7 @@
 			<div class="col mt-4 ms-2 text-secondary">
 				{% if app.user.products.count %}
 					{% if perime|length %}
-						<h4>Here is the list of products whose date is expired:
+						<h4>List of products with expired consumption date:
 						</h4>
 						<span class="badge text-bg-primary">
 							{% if perime|length == 1 %}
@@ -59,8 +59,12 @@
 											</td>
 											<td>{{product.location}}</td>
 											<td>
-												<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm" title="See this product"><i class="bi bi-eye"></i></a>
-												<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm" title="Edit this product"><i class="bi bi-pencil"></i></a>
+												<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="See this product">
+													<i class="bi bi-eye"></i>
+												</a>
+												<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Edit this product">
+													<i class="bi bi-pencil"></i>
+												</a>
 											</td>
 										</tr>
 
@@ -69,12 +73,11 @@
 							</tbody>
 						</table>
 					{% else %}
-						<h4>Congratulation: no expired product.
+						<h4>Congratulation: You have no expired product.
 						</h4>
 					{% endif %}
 					{% if soon_perime|length %}
-						<h4>Here is the list of products whose date will expire in the next
-							{{ app.user.peremptionwarning }}
+						<h4>List of products whose expiration date is within the next {{ app.user.peremptionwarning }}
 							days:
 						</h4>
 						<span class="badge text-bg-primary">
@@ -112,8 +115,12 @@
 												days left</td>
 											<td>{{product.location}}</td>
 											<td>
-												<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm" title="See this product"><i class="bi bi-eye"></i></a>
-												<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm" title="Edit this product"><i class="bi bi-pencil"></i></a>
+												<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="See this product">
+													<i class="bi bi-eye"></i>
+												</a>
+												<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Edit this product">
+													<i class="bi bi-pencil"></i>
+												</a>
 											</td>
 										</tr>
 
@@ -131,7 +138,7 @@
 		{% if app.user.products.count %}
 			<div class="row mt-2">
 				<div class="col ms-2 mt-4 text-secondary">
-					<h4>Weight by category:
+					<h4>Your products: Total weight per category:
 					</h4>
 					<div id="chartdiv" style="width: 100%; height: 450px;"></div>
 				</div>

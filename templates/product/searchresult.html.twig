@@ -29,7 +29,7 @@
 						{% endif %}
 					{% else %}
 						<p>Sorry, no result found for "{{ query }}" :(</p>
-						<a href="{{ path('app_product_index') }}" class="btn btn-primary" style="float: left">Back to products list</a>
+						<a href="{{ path('app_product_index') }}" class="btn btn-primary text-btn" style="float: left">Back to products list</a>
 					{% endif %}
 				</div>
 			</div>
@@ -68,9 +68,9 @@
 							</td>
 							<td>{{ product.location }}</td>
 							<td>
-								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm">show</a>
-								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm">edit</a>
-								<a href="{{ path('app_product_new', {'id': product.id}) }}" class="btn btn-primary btn-sm">clone</a>
+								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn " title="See this product"><i class="bi bi-eye"></i></a>
+								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Edit this product"><i class="bi bi-pencil"></i></a>
+								<a href="{{ path('app_product_new', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Clone this product"><i class="bi bi-magic"></i></a>
 							</td>
 						</tr>
 					{% endfor %}

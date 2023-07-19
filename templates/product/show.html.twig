@@ -52,9 +52,9 @@
 						</tbody>
 					</table>
 					<div class="d-flex align-items-center justify-content-evenly">
-						<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">edit</a>
+						<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary text-btn" title="Edit this product"><i class="bi bi-pencil"></i></a>
 						{{ include('product/_delete_form.html.twig') }}
-						<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
+						<a href="{{ path('app_product_index') }}" class="btn btn-primary text-btn" title="Go back"><i class="fa-solid fa-arrow-left"></i></a>
 					</div>
 				</div>
 				<div class="col-6 text-center">

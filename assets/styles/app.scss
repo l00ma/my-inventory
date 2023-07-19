@@ -1,15 +1,53 @@
-$primary: #581EA3; // purple
+$primary: #6aa84f;
+$danger: #ea9999;
+$green: #005A64;
 
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons";
 
+.text-btn {
+    color: white !important;
+}
+
+.text-bg-primary {
+    color: white !important;
+}
+
+.bg-div-home {
+    background-color: $green;
+    border-radius: 10px; 
+    text-align: center;
+}
+
+.div-home-logo{
+    max-width: 80%; 
+    height: auto;
+}
+
+.v-style {
+    color: crimson;
+}
+
+.v-image{
+    background-image: url('/assets/icon/myInventory_logo.png');
+    background-repeat: no-repeat;
+    background-size: 200px;
+    background-position: center; 
+    align-items: center;
+}
+
+.div-home-image{
+    width:75%; 
+    margin: auto; 
+    display: block;
+}
 
 table.table-hover {
     font-size: 80%;
 }
 
 nav {
-    background-color: #212529;
+    background-color: $green;
 }
 
 td {
