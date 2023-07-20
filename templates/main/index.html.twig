@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+	{% block javascripts %}
+		{{ parent() }}
+		{{ encore_entry_script_tags('chart') }}
+	{% endblock %}
 
 {% block title %}Overview
 {% endblock %}
@@ -150,34 +154,4 @@
 			</div>
 		</div>
 	{% endif %}
-
-	<!-- Resources -->
-	<script src="//cdn.amcharts.com/lib/4/core.js"></script>
-	<script src="//cdn.amcharts.com/lib/4/charts.js"></script>
-	<script src="//cdn.amcharts.com/lib/4/themes/animated.js"></script>
-
-	<!-- Chart code -->
-	<script>
-		// Create chart instance
-am4core.useTheme(am4themes_animated);
-var chart = am4core.create("chartdiv", am4charts.PieChart);
-
-// Add data
-chart.data = [{% for key,value in chart %}{
-"category": "{{ key }}",
-"value": {{ value }}
-},{% endfor %}];
-
-
-// Add and configure Series
-var pieSeries = chart.series.push(new am4charts.PieSeries());
-pieSeries.labels.template.text = "{category} [bold]{value.percent.formatNumber('#.0')}%[/]";
-pieSeries.dataFields.value = "value";
-pieSeries.dataFields.category = "category";
-pieSeries.slices.template.tooltipText = "{value.value} Kg/{value.sum} Kg";
-chart.innerRadius = am4core.percent(30);
-pieSeries.slices.template.stroke = am4core.color("#212529");
-pieSeries.slices.template.strokeWidth = 1;
-pieSeries.slices.template.strokeOpacity = 0.7;
-	</script>
 {% endblock %}

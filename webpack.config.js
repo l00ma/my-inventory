@@ -38,6 +38,7 @@ Encore
     .addEntry('sortable', './assets/sortable.js')
     .addEntry('scan', './assets/scan.js')
     .addEntry('imageSave', './assets/imageSave.js')
+    .addEntry('chart', './assets/chart.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
