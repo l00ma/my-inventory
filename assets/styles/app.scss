@@ -79,7 +79,7 @@ nav {
     height: 450px;
 }
 
-.product-sortable{
+.product-sortable {
     cursor: pointer;
 }
 
@@ -91,19 +91,23 @@ nav {
     float: right;
 }
 
-.nav-link .bi{
+.nav-link .bi {
     font-size: 32px;
+}
+
+#qr-reader{
+    width: 500px;
 }
 
 @media (max-width: 992px) {
     .nav-justify-icons {
-      justify-content: space-evenly;
-      flex-wrap: wrap;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
     }
-  }
+}
 
-  @media (max-width: 425px) {
+@media (max-width: 425px) {
     .navbar-toggler {
         margin-top: 5px;
-      }
-  }
+    }
+}

@@ -17,6 +17,7 @@ class PeremptionService
             foreach ($products as $product) {
                 $interval = $today->diff($product->getLimitDate());
                 $diff = (int) $interval->format('%r%a');
+                //dd($diff);
                 // calcul du nbre de jour avant peremption
                 $product->setPeremptionTime($diff);
                 $warningDate = $user->getPeremptionWarning();

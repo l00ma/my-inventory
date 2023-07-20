@@ -7,17 +7,16 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.text())
         .then(jsonData => {
             const data = JSON.parse(jsonData);
-            const dataArray = Object.keys(data).map((key) => ({
+            const chartData = Object.keys(data).map((key) => ({
                 key: key,
                 value: parseFloat(data[key]),
             }));
-            const chartData = dataArray;
 
             am4core.useTheme(am4themes_animated);
             var chart = am4core.create("chartdiv", am4charts.PieChart);
-            // Add data
+            // on alimente les datas
             chart.data = chartData;
-            // Add and configure Series
+            // config du chart
             var pieSeries = chart.series.push(new am4charts.PieSeries());
             pieSeries.labels.template.text = "{key} [bold]{value.percent.formatNumber('#.0')}%[/]";
             pieSeries.dataFields.value = "value";
