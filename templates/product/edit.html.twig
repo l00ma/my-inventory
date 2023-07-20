@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
-	{% block javascripts %}
-		{{ parent() }}
-		{{ encore_entry_script_tags('imageSave') }}
-	{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('imageSave') }}
+{% endblock %}
 
 {% block title %}Edit Product
 {% endblock %}
@@ -18,7 +18,12 @@
 					<div class="col-11 col-md-8 col-lg-6">
 						<div class="card">
 							<div class="text-center my-2 px-1 px-auto" id="imageHeader">
+								<div class="image-container">
 									<img class="rounded img-fluid" {% if product.photo is empty %} src="{{ asset('build/images/blank_canned.jpg') }}" {% else %} src="{{ asset('build/upload/image/' ~ product.photo.name) }}" {% endif %} alt="error while loading photo" title="Click to update product image.">
+									<div class="overlay">
+										<span class="textOnImg">Click to change image</span>
+									</div>
+								</div>
 							</div>
 							<div class="card-body">
 								{{ include('product/_form.html.twig') }}
