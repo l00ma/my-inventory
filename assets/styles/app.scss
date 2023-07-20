@@ -90,3 +90,20 @@ nav {
 .right {
     float: right;
 }
+
+.nav-link .bi{
+    font-size: 32px;
+}
+
+@media (max-width: 992px) {
+    .nav-justify-icons {
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .navbar-toggler {
+        margin-top: 5px;
+      }
+  }
