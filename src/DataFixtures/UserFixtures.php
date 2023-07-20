@@ -28,7 +28,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             'email' => 'user3@user.fr',
             'username' => 'Thomas',
             'role' => '',
-            'peremption' => '30'
+            'peremption' => '60'
         ],
         [
             'email' => 'user4@user.fr',

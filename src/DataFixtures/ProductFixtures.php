@@ -13,7 +13,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
     public const PRODUCTS = [
         ['name' => 'Riz', 'brand' => 'Buitonis', 'u_weight' => '500'],
-        ['name' => '1 liter bottle', 'brand' => 'Coca-cola', 'u_weight' => '1000'],
+        ['name' => '1.5 liter bottle', 'brand' => 'Coca-cola', 'u_weight' => '1500'],
         ['name' => 'riz en sachet', 'brand' => 'Monti', 'u_weight' => '1000'],
         ['name' => 'Cocktail avec jus naturel', 'brand' => 'St Mamet', 'u_weight' => '425'],
         ['name' => 'Ratatouille', 'brand' => 'Fleur des champs', 'u_weight' => '750'],
@@ -25,20 +25,20 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         ['name' => 'Petits pois extra-fins', 'brand' => 'Fleur des champs', 'u_weight' => '800'],
         ['name' => 'Poêlée parisienne', 'brand' => 'D\'aucy', 'u_weight' => '800'],
         ['name' => 'Petits pois extra-fins', 'brand' => 'D\'aucy', 'u_weight' => '800'],
-        ['name' => 'Petits pois extra-fins', 'brand' => 'Fleur des champs', 'u_weight' => '200'],
-        ['name' => 'Petits pois extra-fins', 'brand' => 'Larroche', 'u_weight' => '400'],
+        ['name' => 'Petits pois extra-fins', 'brand' => 'Bonduel', 'u_weight' => '200'],
+        ['name' => 'Penne Rigate', 'brand' => 'Barilla', 'u_weight' => '800'],
         ['name' => 'Epinards', 'brand' => 'Carrefour', 'u_weight' => '795'],
         ['name' => 'Epinards', 'brand' => 'D\'aucy', 'u_weight' => '765'],
-        ['name' => 'Champignons de Paris', 'brand' => 'Fleur des champs', 'u_weight' => '200'],
-        ['name' => 'Flageolets verts', 'brand' => 'Carrefour', 'u_weight' => '800'],
+        ['name' => 'Champignons de Paris', 'brand' => 'Bonduel', 'u_weight' => '200'],
+        ['name' => 'Fusilli', 'brand' => 'Barilla', 'u_weight' => '800'],
         ['name' => 'Lentilles', 'brand' => 'Fleur des champs', 'u_weight' => '800'],
     ];
 
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
-        $maxCategoryValue = (count(CategoryFixtures::CATEGORIES)) - 1;
-        $maxUserValue = (count(UserFixtures::USERS)) - 1;
+        $maxCategoryValue = (count(CategoryFixtures::CATEGORIES)) -1 ;
+        $maxUserValue = (count(UserFixtures::USERS));
 
         for ($i = 0; $i < $maxUserValue; $i++) {
             if(!in_array("ROLE_ADMIN", ($this->getReference('user_' . $i))->getRoles())) {
@@ -51,7 +51,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
                     $product->setUser($this->getReference('user_' . $i));
                     $product->setPrice($faker->randomNumber(3, true));
                     $product->setQuantity($faker->numberBetween(1, 4));
-                    $product->setLimitDate($faker->dateTimeBetween('-3 weeks', '+1 year'));
+                    $product->setLimitDate($faker->dateTimeBetween('-5 weeks', '+2 years'));
                     $product->setLocation($faker->numberBetween(1, 8));
                     $product->setRemark($faker->sentence());
                     $manager->persist($product);
