@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+	{% block javascripts %}
+		{{ parent() }}
+		{{ encore_entry_script_tags('imageSave') }}
+	{% endblock %}
 
 {% block title %}Add product
 {% endblock %}
@@ -14,13 +18,12 @@
 					</div>
 					<div class="col-11 col-md-8 col-lg-6">
 						<div class="card">
-							<div class="text-center my-2 px-1 px-auto">
-								<img class="rounded img-fluid" src="{{ asset('build/images/blank_canned.jpg') }}" alt="error while loading photo">
+							<div class="text-center my-2 px-1 px-auto" id="imageHeader">
+								<img class="rounded img-fluid" src="{{ asset('build/images/blank_canned.jpg') }}" alt="error while loading photo" title="Click to update product image.">
 
 							</div>
 							<div class="card-body">
 								{{ form_start(form) }}
-
 								<div class="container">
 									<div class="row row-cols-lg-auto">
 										<div class="col-12">
@@ -59,7 +62,7 @@
 											{{ form_row(form.remark) }}
 										</div>
 									</div>
-									<div class="row">
+									<div class="row d-none">
 										<div class="col-12">
 											{{ form_row(form.image) }}
 										</div>
