@@ -52,8 +52,8 @@ function httpGetAsync(theUrl) {
 }
 
 const html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
-    fps: 15,
+    fps: 2,
     qrbox: 500,
-    aspectRatio: 2
+    aspectRatio: 1
 });
 html5QrcodeScanner.render(onScanSuccess);

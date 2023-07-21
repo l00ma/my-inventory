@@ -52,7 +52,6 @@ class ProductController extends AbstractController
             $product->setName($cloned->getName());
             $product->setUWeight($cloned->getUWeight());
             $product->setLocation($cloned->getLocation());
-            $product->setRemark($cloned->getRemark());
         }
 
         // generation du formulaire
