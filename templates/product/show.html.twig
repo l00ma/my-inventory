@@ -4,67 +4,93 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="ms-2 text-secondary">
-			<h3>Product Details</h3>
-		</div>
-		<div class="container mt-4 text-secondary">
-			<div class="row align-items-start">
-				<div class="col-6">
-					<table class="table">
-						<tbody>
-							<tr>
-								<th>Category</th>
-								<td>{{ product.category.name }}</td>
-							</tr>
-							<tr>
-								<th>Name</th>
-								<td>{{ product.name }}</td>
-							</tr>
-							<tr>
-								<th>Brand</th>
-								<td>{{ product.brand }}</td>
-							</tr>
-							<tr>
-								<th>Unit weight (Kg)</th>
-								<td>{{ product.uWeight / 1000 }}</td>
-							</tr>
-							<tr>
-								<th>Price ({{ app.user.currency.name }})</th>
-								<td>{{ product.price / 100 }}</td>
-							</tr>
-							<tr>
-								<th>Quantity</th>
-								<td>{{ product.quantity }}</td>
-							</tr>
-							<tr>
-								<th>Peremption date</th>
-								<td>{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</td>
-							</tr>
-							<tr>
-								<th>Location</th>
-								<td>{{ product.location }}</td>
-							</tr>
-							<tr>
-								<th>Remark</th>
-								<td>{{ product.remark }}</td>
-							</tr>
-						</tbody>
-					</table>
-					<div class="d-flex align-items-center justify-content-evenly">
-						<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">edit</a>
-						{{ include('product/_delete_form.html.twig') }}
-						<a href="{{ path('app_product_index') }}" class="btn btn-primary">back to list</a>
+	{% set onLimit = false %}
+	{% set premptionDate = date('now')|date_modify('+' ~ app.user.peremptionWarning ~ 'days') %}
+	{% if product.limitDate < premptionDate %}
+		{% set onLimit = true %}
+	{% endif %}
+	<section class="container my-3">
+		<div class="row">
+			<div class="col">
+				<div class="d-flex flex-column min-h-100 justify-content-center align-items-center">
+					<div class="ms-2 text-secondary">
+						<h3>Product Details</h3>
 					</div>
-				</div>
-				<div class="col-6 text-center">
-					{% if product.photo is empty %}
-						<h1>No photo</h1>
-					{% else %}
-						<img src="{{ asset('/upload/image/' ~ product.photo.name) }}" alt="error while loading photo">
-					{% endif %}
+					<div class="col-11 col-md-8 col-lg-6">
+						<div class="card">
+							<div class="text-center my-2 px-1 px-auto">
+								{% if product.photo is empty %}
+									<img class="rounded img-fluid" src="{{ asset('build/images/blank_canned.jpg') }}" alt="error while loading photo">
+								{% else %}
+									<img class="rounded img-fluid" src="{{ asset('build/upload/image/' ~ product.photo.name) }}" alt="error while loading photo">
+								{% endif %}
+							</div>
+							<div class="card-body">
+								<h5 class="text-center card-title">{{ product.brand }}
+									-
+									{{ product.name }}</h5>
+								<table class="table">
+									<tbody>
+										<tr>
+											<th>Category</th>
+											<td class="text-end">{{ product.category.name }}</td>
+										</tr>
+										<tr>
+											<th>Unit weight</th>
+											<td class="text-end">{{ product.uWeight / 1000 }}
+												Kg</td>
+										</tr>
+										{% if product.price %}
+											<tr>
+												<th>Unt Price</th>
+												<td class="text-end">{{ product.price / 100 }}
+													{{ app.user.currency.name }}</td>
+											</tr>
+										{% endif %}
+										<tr>
+											<th>Quantity</th>
+											<td class="text-end">{{ product.quantity }}</td>
+										</tr>
+										<tr>
+											<th>Peremption date</th>
+											{% if onLimit  %}
+												<td class="text-end">
+													<div class="badge rounded-pill bg-danger">
+														{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</div>
+												</td>
+											{% else %}
+												<td class="text-end">{{ product.limitDate ? product.limitDate|date('d/m/Y') : '' }}</td>
+											{% endif %}
+										</tr>
+										<tr>
+											<th>Location</th>
+											<td class="text-end">{{ product.location }}</td>
+										</tr>
+										{% if product.remark %}
+											<tr>
+												<th>Remark</th>
+												<td class="text-end">{{ product.remark }}</td>
+											</tr>
+										{% endif %}
+									</tbody>
+								</table>
+								{% if onLimit %}
+								<p class="card-text"><i class="bi bi-exclamation-circle"></i> This product in on your 'To watch' list.</p>
+								{% endif %}
+								<div class="d-flex align-items-center justify-content-evenly">
+									<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary text-btn" title="Edit this product">
+										<i class="bi bi-pencil"></i>
+									</a>
+									{{ include('product/_delete_form.html.twig') }}
+									<a href="{{ path('app_product_index') }}" class="btn btn-primary text-btn" title="Go back">
+										<i class="fa-solid fa-arrow-left"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 {% endblock %}

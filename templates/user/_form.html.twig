@@ -1,6 +1,9 @@
 {{ form_start(form) }}
 
 {{ form_widget(form) }}
-
-<button class="mt-2 btn btn-primary">{{ button_label|default('Save') }}</button>
+<div class="d-flex justify-content-evenly">
+	<button class="mt-2 btn btn-primary text-btn" title="Save this product">
+		<i class="fa-regular fa-floppy-disk"></i>
+	</button>
+</div>
 {{ form_end(form) }}

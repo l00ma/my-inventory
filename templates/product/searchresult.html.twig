@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('sortable') }}
+{% endblock %}
 
 {% block title %}Search Results
 {% endblock %}
@@ -28,37 +32,42 @@
 								{{ app.user.currency.name }}</span>
 						{% endif %}
 					{% else %}
-						<p>Sorry, no result found for "{{ query }}" :(</p>
-						<a href="{{ path('app_product_index') }}" class="btn btn-primary" style="float: left">Back to products list</a>
+						<p>
+							<i class="fa-regular fa-face-frown"></i>
+							Sorry, no result found for "{{ query }}"
+							<i class="fa-regular fa-face-frown"></i>
+						</p>
+						<a href="{{ path('app_product_index') }}" class="btn btn-primary text-btn left" title="Go back">
+							<i class="fa-solid fa-arrow-left"></i>
+						</a>
 					{% endif %}
 				</div>
 			</div>
 		</div>
 		{% if products|length %}
-			<table class="table table-hover sortable" style="font-size:80%; width: 100%; white-space: nowrap; table-layout: fixed;">
+			<table class="products-table sortable">
 				<thead>
 					<tr>
-						<th style="cursor: pointer;">Name</th>
-						<th style="cursor: pointer;">Brand</th>
-						<th style="cursor: pointer;">Category</th>
-						<th style="cursor: pointer;">Quantity</th>
-						<th style="cursor: pointer;">Expiration date</th>
-						<th style="cursor: pointer;">Expiration time</th>
-						<th style="cursor: pointer;">Location</th>
+						<th class="product-sortable">Name</th>
+						<th class="d-none d-md-table-cell product-sortable">Brand</th>
+						<th class="d-none d-lg-table-cell product-sortable">Category</th>
+						<th class="d-none d-md-table-cell product-sortable">Quantity</th>
+						<th class="d-none d-lg-table-cell product-sortable">Expiration date</th>
+						<th class="product-sortable">Expiration time</th>
+						<th class="d-none d-lg-table-cell product-sortable">Location</th>
 						<th class="no-sort">actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for product in products %}
 						<tr {% if product.peremptionalert == '0' or product.peremptionalert == '1' %} style="background-color: {{product.peremptioncss}}" {% endif %}>
-							<td style="overflow: hidden; text-overflow: ellipsis">{{ product.name }}</td>
-							<td>{{ product.brand }}</td>
-							<td>{{product.category.name}}</td>
-							<td>{{ product.quantity }}</td>
-							<td data-sort="{{ product.limitDate|date('U') }}">{{ product.limitDate|date('d/m/Y') }}</td>
+							<td>{{ product.name }}</td>
+							<td class="d-none d-md-table-cell">{{ product.brand }}</td>
+							<td class="d-none d-lg-table-cell">{{product.category.name}}</td>
+							<td class="d-none d-md-table-cell">{{ product.quantity }}</td>
+							<td class="d-none d-lg-table-cell" data-sort="{{ product.limitDate|date('U') }}">{{ product.limitDate|date('d/m/Y') }}</td>
 							<td data-sort="{{ product.limitDate|date('U') }}">
 								{% if product.peremptiontime < 0 %}
-									expired
 									{{ product.peremptiontime|abs }}
 									days ago
 								{% else %}
@@ -66,11 +75,17 @@
 									days left
 								{% endif %}
 							</td>
-							<td>{{ product.location }}</td>
+							<td class="d-none d-lg-table-cell">{{ product.location }}</td>
 							<td>
-								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm">show</a>
-								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm">edit</a>
-								<a href="{{ path('app_product_new', {'id': product.id}) }}" class="btn btn-primary btn-sm">clone</a>
+								<a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn " title="See this product">
+									<i class="bi bi-eye"></i>
+								</a>
+								<a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Edit this product">
+									<i class="bi bi-pencil"></i>
+								</a>
+								<a href="{{ path('app_product_new', {'id': product.id}) }}" class="btn btn-primary btn-sm text-btn" title="Clone this product">
+									<i class="bi bi-magic"></i>
+								</a>
 							</td>
 						</tr>
 					{% endfor %}

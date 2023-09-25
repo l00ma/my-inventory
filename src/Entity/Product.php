@@ -82,6 +82,9 @@ class Product
 
     private ?string $peremption_css = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $barcode = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -257,6 +260,18 @@ class Product
     public function setPeremptionCss(string $peremption_css): self
     {
         $this->peremption_css = $peremption_css;
+
+        return $this;
+    }
+
+    public function getBarcode(): ?string
+    {
+        return $this->barcode;
+    }
+
+    public function setBarcode(?string $barcode): static
+    {
+        $this->barcode = $barcode;
 
         return $this;
     }

@@ -100,7 +100,7 @@ class ProductType extends AbstractType
                 'required' => false,
                 'mapped' => false,
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ],
                 'constraints' => [
                     new Image([
@@ -118,20 +118,27 @@ class ProductType extends AbstractType
                 'label' => 'Add a picture'
             ])
             ->add('save', SubmitType::class, [
+                'label' => '<i class="fa-regular fa-floppy-disk"></i>',
+                'label_html' => true,
                 'attr' => [
-                    'class' => 'form-control btn btn-primary'
+                    'class' => 'form-control btn btn-primary text-btn',
+                    'title' => 'Save this product',
                 ],
             ])
             ->add('delete', SubmitType::class, [
-                'label' => 'Delete',
+                'label' => '<i class="bi bi-trash"></i>',
+                'label_html' => true,
                 'attr' => [
-                    'class' => 'form-control btn btn-primary'
+                    'class' => 'form-control btn btn-danger text-btn',
+                    'title' => 'Delete this product',
                 ],
             ])
             ->add('back', SubmitType::class, [
-                'label' => 'Back to list',
+                'label' => '<i class="fa-solid fa-arrow-left"></i>',
+                'label_html' => true,
                 'attr' => [
-                    'class' => 'form-control btn btn-primary'
+                    'class' => 'form-control btn btn-primary text-btn',
+                    'title' => 'Go back',
                 ],
             ]);
     }

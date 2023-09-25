@@ -1,26 +1,37 @@
 {% extends 'base.html.twig' %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('imageSave') }}
+{% endblock %}
 
 {% block title %}Edit Product
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="ms-2 text-secondary">
-			<h3>Edit Product</h3>
-		</div>
-		<div class="container mt-4 text-secondary">
-			<div class="row align-items-start">
-				<div class="col-6">
-					{{ include('product/_form.html.twig') }}
-				</div>
-				<div class="col-6 text-center">
-					{% if product.photo is empty %}
-						<h1>No photo</h1>
-					{% else %}
-						<img src="{{ asset('/upload/image/' ~ product.photo.name) }}" alt="error while loading photo">
-					{% endif %}
+	<section class="container my-3">
+		<div class="row">
+			<div class="col">
+				<div class="d-flex flex-column min-h-100 justify-content-center align-items-center">
+					<div class="ms-2 text-secondary">
+						<h3>Edit Product</h3>
+					</div>
+					<div class="col-11 col-md-8 col-lg-6">
+						<div class="card">
+							<div class="text-center my-2 px-1 px-auto" id="imageHeader">
+								<div class="image-container">
+									<img class="rounded img-fluid" {% if product.photo is empty %} src="{{ asset('build/images/blank_canned.jpg') }}" {% else %} src="{{ asset('build/upload/image/' ~ product.photo.name) }}" {% endif %} alt="error while loading photo" title="Click to update product image.">
+									<div class="overlay">
+										<span class="textOnImg">Click to change image</span>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+								{{ include('product/_form.html.twig') }}
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 {% endblock %}
