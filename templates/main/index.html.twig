@@ -51,11 +51,11 @@
 										<td class="d-none d-md-table-cell">{{product.quantity}}</td>
 										<td class="d-none d-lg-table-cell">{{product.limitdate|date('d/m/Y')}}</td>
 										<td>
-											{% if product.peremptiontime < 0 %}
+											{% if product.peremptiontime < -1 %}
 												{{ product.peremptiontime|abs }}
 												days ago
 											{% else %}
-												{{ product.peremptiontime }}
+												{{ product.peremptiontime|abs }}
 												days left
 											{% endif %}
 										</td>
@@ -115,7 +115,7 @@
 											<td class="d-none d-lg-table-cell">{{product.category.name}}</td>
 											<td class="d-none d-md-table-cell">{{product.quantity}}</td>
 											<td class="d-none d-lg-table-cell">{{product.limitdate|date('d/m/Y')}}</td>
-											<td>{{ product.peremptiontime }}
+											<td>{{ product.peremptiontime|abs }}
 												days left</td>
 											<td class="d-none d-lg-table-cell">{{product.location}}</td>
 											<td>
@@ -154,4 +154,7 @@
 			</div>
 		</div>
 	{% endif %}
+
+	<div {{ stimulus_controller('hello') }}>
+</div>
 {% endblock %}

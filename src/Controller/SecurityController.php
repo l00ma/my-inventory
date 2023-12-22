@@ -71,7 +71,7 @@ class SecurityController extends AbstractController
 
                 // Envoi du mail
                 $mail->send(
-                    'no-reply@myinventory.com',
+                    'contact@gaming-gurus.fred-moutin.com',
                     $user->getEmail(),
                     'Password reset',
                     'password_reset',

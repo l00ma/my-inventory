@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-	
+
 	<div class="ms-2 text-secondary">
 		<div class="row mt-2">
 			<div class="col ms-2 text-secondary">
@@ -72,11 +72,11 @@
 						<td class="d-none d-md-table-cell">{{ product.quantity }}</td>
 						<td class="d-none d-lg-table-cell" data-sort="{{ product.limitDate|date('U') }}">{{ product.limitDate|date('d/m/Y')}}</td>
 						<td data-sort="{{ product.limitDate|date('U') }}">
-							{% if product.peremptiontime < 0 %}
+							{% if product.peremptiontime < -1 %}
 								{{ product.peremptiontime|abs }}
 								days ago
 							{% else %}
-								{{ product.peremptiontime }}
+								{{ product.peremptiontime|abs }}
 								days left
 							{% endif %}
 						</td>
