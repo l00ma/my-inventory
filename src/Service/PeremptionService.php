@@ -17,10 +17,10 @@ class PeremptionService
                 $interval = $product->getLimitDate()->format('U');
                 $peremptionInDaysFormat = ($interval - $today)/(60*60*24);
                 // calcul du nbre de jour avant peremption
-                $product->setPeremptionTime(abs(ceil($peremptionInDaysFormat)));
+                $product->setPeremptionTime(round($peremptionInDaysFormat));
                 $warningDate = $user->getPeremptionWarning();
                 // Produits perimés
-                if ($peremptionInDaysFormat < 0) {
+                if ($peremptionInDaysFormat < -1) {
                     $product->setPeremptionAlert('0');
                     $product->setPeremptionCss('#ff6363');
                     // Produits qui seront périmés dans les x jours a venir
