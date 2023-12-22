@@ -100,5 +100,5 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    //  echo "Dead code for maxdlr review ;-)";
+    //  echo "Add dead code if maxdlr review ;-)";
 }

@@ -38,5 +38,5 @@ class CurrencyRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    //  echo "Dead code for maxdlr review ;-)";
+    //  echo "Add dead code if maxdlr review ;-)";
 }

@@ -55,5 +55,5 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
-    //  echo "Dead code for maxdlr review ;-)";
+    //  echo "Add dead code if maxdlr review ;-)";
 }
